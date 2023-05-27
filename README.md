@@ -1,38 +1,134 @@
-﻿# 20231-team-11
-USER STORIES
+# Invaders
 
-•	Game – cria todos os objetos do jogo.
+<!---Esses são exemplos. Veja https://shields.io para outras pessoas ou para personalizar este conjunto de escudos. Você pode querer incluir dependências, status do projeto e informações de licença aqui--->
 
-Um Game baseado em um Galaxian, que cria todos os objetos do jogo, precisa de uma nave para o jogador controlar e inimigos para interagir.
+![GitHub repo size](https://img.shields.io/github/repo-size/iuricode/README-template?style=for-the-badge)
+![GitHub language count](https://img.shields.io/github/languages/count/iuricode/README-template?style=for-the-badge)
+![Bitbucket open issues](https://img.shields.io/bitbucket/issues/iuricode/README-template?style=for-the-badge)
+![Bitbucket open pull requests](https://img.shields.io/bitbucket/pr-raw/iuricode/README-template?style=for-the-badge)
 
-•	Alien – é um MotionObject que tem uma pontuação diferente para cada tipo de alien
+<img src="images/aux/game.png" alt="Dois Kamikazes se aproximando da nave do jogador">
 
-Um Alien precisa de um comportamento para se mover e uma textura para se identificar seu tipo, assim definindo como o jogador irá interagir com ele.
+> Desenvolvimento de um jogo baseado no Invaders Clássico, utilizando-se a biblioteca gráfica Raylib.
 
-•	Ship - é o MotionObject que o jogador controla
+### Ajustes e melhorias
 
-Ship precisa de um comportamento para se mover e uma textura para se identificar seu tipo. É o objeto que o jogador controla.
+O projeto ainda está em desenvolvimento e as próximas atualizações serão voltadas nas seguintes tarefas:
 
-•	Boss – alien especial que não morre com um tiro, tem uma barra de vida
+- [ ] Diagrama de objetos do jogo
+- [ ] Testes de unidade
+- [ ] Implementação do objeto bullet
+- [ ] Funções de colisão e destruição de objetos
 
-Um Alien precisa de um comportamento para se mover e uma textura para se identificar seu tipo, assim definindo como o jogador irá interagir com ele. Tem habilidades especiais que os aliens normais não possuem.
+## 💻 Pré-requisitos
 
-•	MotionObject – se relaciona com todos os objetos que se movem, defini sua velocidade, aceleração e posição.
+Antes de começar, verifique se você atendeu aos seguintes requisitos:
+* Compilador `g++`, para Windowns é recomendado o `mingw32`
+* O jogo é compatível com versões recentes de `<Windows / Linux / MacOS>`
 
-MotionObject se relaciona com os objetos em movimento do jogo para definir sua velocidade e aceleração.
 
-•	Behaviour – muda a velocidade e aceleração, e/ou posição do objeto.
+## 🚀 Instalando e rodando o Invaders
 
-Behaviour se relaciona com MotionObject para mudar sua velocidade e aceleração.
+Para instalar o Invaders, siga estas etapas:
 
-•	Bullet - é um MotionObject
+Clonagem do Repositório:
+```
+    git clone https://github.com/pds2/20231-team-11.git
+```
 
-Bullet se relaciona com os outros MotionObject com o objetivo de causar dano neles ou destrui-los.
+Linux e macOS:
+```
+    make
+```
 
-•	Fleet – Vetor de aliens.
+Windows:
+```
+    mingw32-make
+```
 
-Feet defini a quantidade de aliens que aparece na tela para o jogador interagir.
+## 📖 User Stories
 
-•	Texture – defini as imagens de todos os objetos do jogo.
+### Game
 
-Texture defini as imagens dos objetos para se identificar com mais facilidade os elementos do jogo.
+Como jogador, quero um Game baseado em Galaxian que crie todos os objetos do jogo, incluindo uma nave controlada pelo jogador e inimigos para interagir.
+
+### Alien
+
+Como jogador, quero que um Alien que se movimente, com uma pontuação diferente para cada tipo de alien, proporcionando interações únicas com base em seu comportamento e textura.
+
+### Ship
+
+Como jogador, quero um Ship que eu posso controlar, permitindo-me navegar e interagir com o jogo.
+
+### Boss
+
+Como jogador, quero um alien especial chamado Boss que tenha uma barra de vida e não possa ser morto com um único tiro, proporcionando uma experiência de jogo mais desafiadora e estratégica. Ele deve ter seu próprio comportamento e textura distintiva.
+
+### MotionObject
+
+Como jogador, quero um MotionObject que esteja relacionado a todos os objetos em movimento do jogo, permitindo-me definir sua velocidade, aceleração e posição com precisão.
+
+### Behaviour
+
+Como jogador, quero um Behaviour que possa modificar a velocidade, aceleração e/ou posição de um objeto, permitindo comportamentos e movimentos personalizados para os MotionObjects.
+
+### Bullet
+
+Como jogador, quero que uma Bullet seja um MotionObject que se relacione com outros objetos em movimento, com o objetivo de causar dano ou destruí-los.
+
+### Fleet
+
+Como jogador, quero uma Fleet que seja um vetor de aliens, permitindo definir a quantidade de aliens que aparecem na tela para interação durante o jogo.
+
+### Texture
+
+Como jogador, quero que uma Texture defina as imagens de todos os objetos do jogo, facilitando a identificação visual dos elementos do jogo.
+
+
+
+## 🤝 Colaboradores
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="#">
+        <img src="images/aux/panda.jpg" width="130px;" height="150px" alt="Foto de João Costa"/><br>
+        <sub>
+          <b>João Costa</b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="#">
+        <img src="images/aux/galinha.jpg" width="130px;" height="150px" alt="Foto de Lucca Alvarenga"/><br>
+        <sub>
+          <b>Lucca Alvarenga</b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="#">
+        <img src="images/aux/lhama.jpg" width="130px;" height="150px" alt="Foto de Lucas Pedras"/><br>
+        <sub>
+          <b>Lucas Pedras</b>
+        </sub>
+      </a>
+    </td>
+     <td align="center">
+      <a href="#">
+        <img src="images/aux/raposa.jpg" width="130px;" height="150px" alt="Foto de Lucas Santos"/><br>
+        <sub>
+          <b>Lucas Santos</b>
+        </sub>
+      </a>
+    </td>
+     <td align="center">
+      <a href="#">
+        <img src="images/aux/coruja.jpg" width="130px;" height="150px" alt="Foto de Arthur Fissicaro"/><br>
+        <sub>
+          <b>Arthur Fissicaro</b>
+        </sub>
+      </a>
+    </td>
+  </tr>
+</table>

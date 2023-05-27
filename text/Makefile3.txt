@@ -1,0 +1,40 @@
+CC = g++
+CFLAGS = -std=c++17 -Wall -Wextra
+INCLUDE = -I include -I thirdy_party
+LIBDIR = lib/macOS
+SRCDIR = src
+OBJDIR = build
+BINDIR = .
+
+ifeq ($(OS),Windows_NT)
+    LIBS = -lraylib -Wl,--allow-multiple-definition -pthread -lopengl32 -lgdi32 -lwinmm -mwindows -static -static-libgcc -static-libstdc++
+    TARGET = $(BINDIR)/main.exe
+	MKDIR_P = mkdir
+else
+    UNAME_S := $(shell uname -s)
+    ifeq ($(UNAME_S),Linux)
+        LIBS = -lraylib  -l GL -l m -l pthread -l dl -l rt -l X11
+        TARGET = $(BINDIR)/main
+		MKDIR_P = mkdir -p
+    endif
+    ifeq ($(UNAME_S),Darwin)
+        LIBS = -lraylib -framework CoreVideo -framework IOKit -framework Cocoa -framework GLUT -framework OpenGL
+        TARGET = $(BINDIR)/main
+		MKDIR_P = mkdir -p
+    endif
+endif
+
+SOURCES = $(wildcard $(SRCDIR)/*.cpp)
+OBJECTS = $(patsubst $(SRCDIR)/%.cpp,$(OBJDIR)/%.o,$(SOURCES))
+
+$(TARGET): $(OBJECTS)
+	$(CC) $(CFLAGS) $(INCLUDE) -L$(LIBDIR) -o $@ $^ $(LIBS)
+
+$(OBJDIR)/%.o: $(SRCDIR)/%.cpp
+	$(MKDIR_P) $(OBJDIR)
+	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
+
+clean:
+	rm -rf $(OBJDIR) $(TARGET)
+
+.PHONY: clean
