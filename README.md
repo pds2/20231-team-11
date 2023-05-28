@@ -92,7 +92,6 @@ Como jogador, quero que uma Texture defina as imagens de todos os objetos do jog
   <tr>
     <td align="center">
       <a href="#">
-        <img src="images/aux/panda.jpg" width="130px;" height="150px" alt="Foto de João Costa"/><br>
         <sub>
           <b><a href="https://github.com/joao-jcc">João Costa</a></b>
         </sub>
@@ -100,7 +99,6 @@ Como jogador, quero que uma Texture defina as imagens de todos os objetos do jog
     </td>
     <td align="center">
       <a href="#">
-        <img src="images/aux/galinha.jpg" width="130px;" height="150px" alt="Foto de Lucca Alvarenga"/><br>
         <sub>
           <b><a href="https://github.com/luccaamp">Lucca Alvarenga</a></b>
         </sub>
