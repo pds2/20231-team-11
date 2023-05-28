@@ -94,7 +94,7 @@ Como jogador, quero que uma Texture defina as imagens de todos os objetos do jog
       <a href="#">
         <img src="images/aux/panda.jpg" width="130px;" height="150px" alt="Foto de João Costa"/><br>
         <sub>
-          <b>João Costa</b>
+          <b><a href="https://github.com/joao-jcc">João Costa</a></b>
         </sub>
       </a>
     </td>
@@ -102,31 +102,28 @@ Como jogador, quero que uma Texture defina as imagens de todos os objetos do jog
       <a href="#">
         <img src="images/aux/galinha.jpg" width="130px;" height="150px" alt="Foto de Lucca Alvarenga"/><br>
         <sub>
-          <b>Lucca Alvarenga</b>
+          <b><a href="https://github.com/luccaamp">Lucca Alvarenga</a></b>
         </sub>
       </a>
     </td>
     <td align="center">
       <a href="#">
-        <img src="images/aux/lhama.jpg" width="130px;" height="150px" alt="Foto de Lucas Pedras"/><br>
         <sub>
-          <b>Lucas Pedras</b>
+          <b><a href="https://github.com/lucaspedras8">Lucas Pedras</a></b>
         </sub>
       </a>
     </td>
      <td align="center">
       <a href="#">
-        <img src="images/aux/raposa.jpg" width="130px;" height="150px" alt="Foto de Lucas Santos"/><br>
         <sub>
-          <b>Lucas Santos</b>
+          <b><a href="https://github.com/LrcSantos">Lucas Santos</a></b>
         </sub>
       </a>
     </td>
      <td align="center">
       <a href="#">
-        <img src="images/aux/coruja.jpg" width="130px;" height="150px" alt="Foto de Arthur Fissicaro"/><br>
         <sub>
-          <b>Arthur Fissicaro</b>
+          <b><a href="https://github.com/Fissicaro">Arthur Fissicaro</a></b>
         </sub>
       </a>
     </td>
