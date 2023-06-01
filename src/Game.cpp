@@ -10,7 +10,7 @@ Game::Game() {
 
     // Vetores para posições, velocidades e acelerações
 
-    Vector2 positionA = {SCREEN_WIDTH/2, SCREEN_HEIGHT - (50/2)};
+    Vector2 positionA = {SCREEN_WIDTH/2, SCREEN_HEIGHT - (80/2)};
     Vector2 positionB = {400.0f, 50.0f};
     Vector2 positionC = {100.0f, 50.0f};
     Vector2 positionD = {500.0f, 50.0f};
@@ -25,7 +25,7 @@ Game::Game() {
     
     // Armazena objetos cinemáticos no HEAP
 
-    _ship= new Ship(positionA, velocityA, accelerationA, Vector2{50, 50}, "ship");
+    _ship= new Ship(positionA, velocityA, accelerationA, Vector2{50, 80}, "ship");
 
     Alien* alien = new Alien(positionB, velocityB, accelerationB, Vector2{40, 40}, "alien");
     Alien* alien2 = new Alien(positionC, velocityB, accelerationB, Vector2{30, 30}, "alien");
@@ -68,6 +68,9 @@ Game::Game() {
 
    // Textures
    _textures = std::map<std::string, Texture2D>();
+
+   // Timer
+   _timer = 0.0f;
 
 }
 
@@ -114,6 +117,8 @@ void Game::run_loop() {
     // Loop principal do jogo
 
      while(!WindowShouldClose() && _game_status) {
+        _timer += GetFrameTime();
+
         _process_input();
         _update_game();
         _draw_game();
@@ -161,7 +166,7 @@ void Game::_draw_game() {
     Vector2Zero(), 0, WHITE);
 
     // Desenha a nave e os aliens com as texturas especificadas no estado do jogo
-    _ship->draw(_textures, _rectangles);
+    _ship->draw(_textures, &_timer);
     for (Alien* alien : _aliens) {
         alien->draw(_textures, _rectangles);
     }
@@ -261,7 +266,7 @@ void inline Game::_load_graphics() {
     _textures["ship"] = LoadTexture(SHIP_TEXTURE);
     _textures["alien"] = LoadTexture(ALIEN_TEXTURE);
     _textures["bullet"] = LoadTexture(BULLET_TEXTURE);
-
+                                    
     _rectangles["background"] = {0, 0, (float)_textures.at("background").width, (float)_textures.at("background").height};
     _rectangles["ship"] = {0, 0, (float)_textures.at("ship").width, (float)_textures.at("ship").height};
     _rectangles["alien"] = {0, 0, (float)_textures.at("alien").width, (float)_textures.at("alien").height};

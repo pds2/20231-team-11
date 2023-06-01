@@ -246,9 +246,6 @@ void FollowMouseBehaviour::update(MotionObject* motion_object) {
 // }
 
 // void ZigZagBehaviour::update(Alien* alien) {
-//     Vector2 position = alien->get("position");
-//     Vector2 velocity = alien->get("velocity");
-
-//     bool flag_right = alien->get_flags("right");
+//    Vector2 position = alien->get("position");
 // }
 

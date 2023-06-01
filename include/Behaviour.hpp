@@ -10,7 +10,6 @@
 #include "Settings.hpp"
 
 class MotionObject;
-class Alien;
 
 // Determina o comportamento cinemático do objeto (posicao e velocidade)
 class Behaviour {

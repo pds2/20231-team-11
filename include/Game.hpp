@@ -75,6 +75,9 @@ class Game {
 
         // Flag booleana indicando status do jogo
         bool _game_status;
+
+        // timer
+        float _timer;
         
 
 };
