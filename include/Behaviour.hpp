@@ -10,6 +10,7 @@
 #include "Settings.hpp"
 
 class MotionObject;
+class Alien;
 
 // Determina o comportamento cinemático do objeto (posicao e velocidade)
 class Behaviour {
@@ -20,6 +21,17 @@ class Behaviour {
         virtual void update(MotionObject* motion_object);
         virtual void assertion(std::map<std::string, Vector2>* parameters_motion); 
 
+};
+
+
+class DefaultBulletBehaviour : public Behaviour {
+    // Movimento com velocidade vertical constante da bala
+    public:
+        DefaultBulletBehaviour();
+        ~DefaultBulletBehaviour();
+
+        virtual void update(MotionObject* motion_object) override;          
+        
 };
 
 
@@ -88,6 +100,23 @@ class KamikazeBehaviour : public Behaviour {
 
         
 };
+
+// class ZigZagBehaviour : public Behaviour {
+//     public:
+//         ZigZagBehaviour();
+//         ZigZagBehaviour(float edge_x, float step_y);
+//         ~ZigZagBehaviour();
+        
+//         void update(Alien* alien);
+    
+//     private:
+//         // distância em que o alien pode chegar das laterias da tela
+//         float _edge_x;
+
+//         // distância que o alien percorre até retornar ao movimento horizontal
+//         float _step_y;
+
+// };
 
 class FollowMouseBehaviour : public Behaviour {
     public:

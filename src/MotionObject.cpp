@@ -5,24 +5,31 @@ MotionObject::MotionObject() {
                           {"acceleration", Vector2()}};
     _object_dimension = Vector2();
     _alive = true;
-
+    _graphic_key = "";
 };
+
+MotionObject::MotionObject(Vector2 position, Vector2 velocity, Vector2 acceleration, Vector2 object_dimension, std::string graphic_key) {
+     _parameters_motion = {{"position", position}, {"velocity", velocity}, 
+                          {"acceleration", acceleration}};
+    _object_dimension = object_dimension;
+    _alive = true;
+    _graphic_key = graphic_key;
+};
+
 
 MotionObject::~MotionObject() {
 
 };
 
 void MotionObject::update() {
-    if (!_alive) {return;}
     for (auto it = _behaviours.begin(); it != _behaviours.end(); it++) {
         (*it)->update(this);
     }
 
 };
 
-void MotionObject::draw(Texture2D& texture, Rectangle src_object_rectangle) {
-    if (!_alive) {return;}
-    DrawTexturePro(texture, src_object_rectangle,
+void MotionObject::draw(std::map<std::string, Texture2D>& textures, std::map<std::string, Rectangle>& src_full_rectangles) {
+    DrawTexturePro(textures.at(_graphic_key), src_full_rectangles.at(_graphic_key),
                    (Rectangle) {_parameters_motion.at("position").x, 
                     _parameters_motion.at("position").y, 
                     _object_dimension.x, _object_dimension.y},

@@ -4,13 +4,16 @@
 #include <raylib-cpp.hpp>
 #include <map>
 #include <string>
-#include <vector>
+#include <iterator>
+#include <list>
 
 #include "MotionObject.hpp"
-#include "Alien.hpp"
 #include "Ship.hpp"
+#include "Alien.hpp"
 #include "Behaviour.hpp"
 #include "Settings.hpp"
+
+class Ship;
 
 class Game {
     public:
@@ -25,6 +28,11 @@ class Game {
 
         // Fecha jogo
         void shutdown();
+
+        // Setters e Getters
+        Behaviour* get_behaviour(std::string key);
+
+        void add_bullet(MotionObject* bullet);
     
     private:
         // Recebe entradas do usuário (teclado e mouse)
@@ -36,33 +44,37 @@ class Game {
         // Desenha o novo estado do jogo
         void _draw_game();
 
-        // Add objects
-        void _add_alien(Alien* alien);
-
         // Checagem de colisões
         void _check_colisions();
 
+        // Finaliza o jogo
+        void _end_game();
+
+        // Load graphics
+        void inline _load_graphics();
+
+        // Unload graphics
+        void inline _unload_graphics();
+
         // Objetos que descrevem o estado do jogo
         Ship* _ship;
-        std::vector<Alien*> _aliens;
+        std::list<Alien*> _aliens;
+        std::list<MotionObject*> _bullets;
+        std::list<MotionObject*> _deads;
 
         // Comportamentos do jogo
-        std::vector<Behaviour*> _behaviours;
+        std::map<std::string, Behaviour*> _behaviours;
 
         // Inputs
         std::map<std::string, bool> _key_inputs;
         raylib::Vector2 _mouse_position;
 
         // Gráficos
-        Texture2D _background_texture;
-        Rectangle _src_screen_rectangle;
-        
-        Texture2D _ship_texture;
-        Rectangle _src_ship_rectangle;
+        std::map<std::string, Texture2D> _textures;
+        std::map<std::string, Rectangle> _rectangles;
 
-        Texture2D _alien_texture;
-        Rectangle _src_alien_rectangle;
-        
+        // Flag booleana indicando status do jogo
+        bool _game_status;
         
 
 };

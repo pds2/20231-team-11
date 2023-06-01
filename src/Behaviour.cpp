@@ -1,9 +1,11 @@
 #include "Behaviour.hpp"
 
 
+
 // BEHAVIOUR
 
 Behaviour::Behaviour() {
+    
 };
 
 Behaviour::~Behaviour() {
@@ -11,7 +13,7 @@ Behaviour::~Behaviour() {
 };
 
 void Behaviour::update(MotionObject* motion_object) {
-    
+    // Posição no centro da tela
     Vector2 position = {SCREEN_WIDTH/2, SCREEN_HEIGHT/2};
 
     motion_object->set("position", position);
@@ -23,6 +25,24 @@ void Behaviour::assertion(std::map<std::string, Vector2>* parameters_motion) {
     (void)parameters_motion; 
 
 } 
+
+// DEFAULT_BULLET_BEHAVIOUR
+DefaultBulletBehaviour::DefaultBulletBehaviour() {
+
+}
+
+DefaultBulletBehaviour::~DefaultBulletBehaviour() {
+
+}
+
+void DefaultBulletBehaviour::update(MotionObject* motion_object) {
+     // Movimento retilíneo e uniforme vertical da bala
+    Vector2 position = motion_object->get("position");
+    Vector2 velocity= motion_object->get("velocity");
+
+    motion_object->set("position", Vector2Add(position, velocity));
+}
+
 
 // DEFAULT_SHIP_BEHAVIOUR
 
@@ -43,6 +63,7 @@ void DefaultShipBehaviour::update(MotionObject* motion_object) {
     bool move_right = _key_inputs->at("down_right"), move_left = _key_inputs->at("down_left");
     position.x += move_right * velocity.x - move_left * velocity.x;
 
+    // Checa fronteiras laterais: substituir o 20 por um valor em função da dimensão da nave
     if (position.x > 20 && position.x < SCREEN_WIDTH - 20)
         motion_object->set("position", position);
 
@@ -211,3 +232,23 @@ FollowMouseBehaviour::~FollowMouseBehaviour() {
 void FollowMouseBehaviour::update(MotionObject* motion_object) {
     motion_object->set("position", GetMousePosition());
 };
+
+// ZIG-ZAG BEHAVIOUR
+// Exclusivo para aliens
+// ZigZagBehaviour::ZigZagBehaviour() {
+//     _edge_x = 0.0f;
+//     _step_y = 0.0f;
+// }
+
+// ZigZagBehaviour::ZigZagBehaviour(float edge_x, float step_y) {
+//     _edge_x = edge_x;
+//     _step_y = step_y;
+// }
+
+// void ZigZagBehaviour::update(Alien* alien) {
+//     Vector2 position = alien->get("position");
+//     Vector2 velocity = alien->get("velocity");
+
+//     bool flag_right = alien->get_flags("right");
+// }
+

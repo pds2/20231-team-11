@@ -1,22 +1,14 @@
 #include "Alien.hpp"
 
 Alien::Alien() : MotionObject() {
-
-    _parameters_motion.at("position") = Vector2{400.0f, 30.0f};
-    _parameters_motion.at("velocity") = Vector2{0.0f, 0.0f};
-    _parameters_motion.at("acceleration") = Vector2{0.4f, 0.0f};
-
-    _object_dimension = Vector2 {50, 50};
+    _motion_flags = std::map<std::string, bool>();
 }
 
-Alien::Alien(Vector2 position, Vector2 velocity, Vector2 acceleration) : MotionObject() {
-    _parameters_motion.at("position") = position;
-    _parameters_motion.at("velocity") = velocity;
-    _parameters_motion.at("acceleration") = acceleration;
-
-    _object_dimension = Vector2 {50, 50};
+Alien::Alien(Vector2 position, Vector2 velocity, Vector2 acceleration, Vector2 alien_dimension, std::string graphic_key) 
+    : MotionObject(position, velocity, acceleration, alien_dimension, graphic_key) {
+    _motion_flags = std::map<std::string, bool>();
 }
 
 Alien::~Alien() {
-    
+
 }

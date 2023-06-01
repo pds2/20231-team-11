@@ -1,5 +1,0 @@
-$(TARGET_IMG):  $(SRCDIRIMG)/exporter.o
-    $(CC) $(CFLAGS) $(INCLUDE) -L$(LIBDIR) $(SRCDIRIMG)/exporter.o -o $(TARGET_IMG)
-
-$(SRCDIRIMG)/exporter.o: $(SRCDIRIMG)/exporter.cpp
-    $(CC) $(CFLAGS) $(INCLUDE) -c $(SRCDIRIMG)/exporter.cpp -o $(SRCDIRIMG)/exporter.o

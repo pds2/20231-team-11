@@ -3,13 +3,8 @@
 ├── Makefile
 ├── README.md
 ├── build
-│   ├── Alien.o
-│   ├── Behaviour.o
-│   ├── Game.o
-│   ├── MotionObject.o
-│   ├── Ship.o
-│   └── main.o
 ├── images
+│   ├── bullet.png
 │   ├── space.png
 │   ├── spaceship_red.png
 │   └── spaceship_yellow.png
@@ -22,9 +17,10 @@
 │   ├── Settings.hpp
 │   └── Ship.hpp
 ├── lib
+│   ├── Windows
+│   │   └── libraylib.a
 │   └── macOS
 │       └── libraylib.a
-├── main
 ├── src
 │   ├── Alien.cpp
 │   ├── Behaviour.cpp
@@ -33,9 +29,7 @@
 │   ├── Ship.cpp
 │   └── main.cpp
 ├── text
-│   ├── Makefile_0.txt
 │   ├── info.txt
-│   ├── test.txt
 │   └── tree.txt
 └── thirdy_party
     ├── AudioDevice.hpp
@@ -79,4 +73,4 @@
     ├── raymath.h
     └── raymath.hpp
 
-9 directories, 71 files
+10 directories, 64 files

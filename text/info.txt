@@ -39,3 +39,9 @@ O tratamento de colisões considera que cada objeto cinemático é um retângulo
 e centro na posição do objeto
 
 devemos considerar utiliza um set de behaviours como variavel glaobal a fim de facilitar a liberação de memória??
+
+
+Tempo de carregamento
+  estamos usando 10 frames, trocar para função de tempo raylib (lucca)
+  
+  
