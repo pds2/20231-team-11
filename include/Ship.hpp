@@ -1,43 +1,36 @@
-#ifndef SHIP_H
-#define SHIP_H
+#ifndef SHIP_HPP
+#define SHIP_HPP
 
-#include <raylib-cpp.hpp>
-#include <string>
-#include <map>
-
-#include "Game.hpp"
 #include "MotionObject.hpp"
-
-class Game;
 
 class Ship : public MotionObject {
     public:
         Ship();
-        Ship(Vector2 position, Vector2 velocity, Vector2 acceleration, Vector2 ship_dimension, std::string graphic_key);
+        Ship(Vector2 position, Vector2 velocity, Vector2 acceleration, Vector2 ship_dimension);
         
         ~Ship();
 
+        // Atualiza a nave em carga e posição
+        void update(float delta_time);
+
+        // Checa se a bala está carregada
         bool is_charged();
 
-        void add_charge();
-        void fire_bullet(Game* game);
+        // Dispara uma bala
+        void fire_bullet();
 
-        void draw(std::map<std::string, Texture2D>& textures, float* timer);
+        // Diminui a vida da nave
+        int kill_ship();
+
+        // Getter
+        int get_life();
     
     private:
-        void _update_frame();
-        unsigned _total_charge;
-        unsigned _current_charge;
+        // Descrição da nave
+        float _total_charge;
+        float _current_charge; 
 
-        // Tempo para alterar o frame
-        float _timer_frame;
-
-        // Número total de frames
-        unsigned _num_frames;
-
-        // Frame corrente
-        unsigned _frame;
-        
+        int _life;
  
 };
 

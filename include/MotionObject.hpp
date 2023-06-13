@@ -1,23 +1,26 @@
-#ifndef MOTION_OBJECT_H
-#define MOTION_OBJECT_H
+#ifndef MOTION_OBJECT_HPP
+#define MOTION_OBJECT_HPP
+
 
 #include <raylib-cpp.hpp>
+#include <iostream>
 #include <vector>
 #include <iterator>
 #include <map>
 #include <string>
-#include "Behaviour.hpp"
 
 
+class Game;
 class Behaviour;
+class Animation;
 
 class MotionObject {
     public:
         // Construtor padrão
         MotionObject();
 
-        // Construtor com especificação dos estado
-        MotionObject(Vector2 position, Vector2 velocity, Vector2 acceleration, Vector2 object_dimension, std::string graphic_key);
+        // Construtor com especificação do estado
+        MotionObject(Vector2 position, Vector2 velocity, Vector2 acceleration, Vector2 dimension);
 
         // Destrutor
         ~MotionObject();
@@ -25,37 +28,43 @@ class MotionObject {
         // Atualiza a posição do objeto com base em comportamentos
         void update();
 
-        // Desenha o objeto com a textura e source_rectangle especificados
-        void draw(std::map<std::string, Texture2D>& textures, std::map<std::string, Rectangle>& src_full_rectangles);
+        // Desenha o objeto com base nas animações em seu estado
+        void draw();
 
         // Adiciona comportamentos para modificar a função update
         void add_behaviour(Behaviour* behaviour);
 
-        std::vector<Behaviour*> get_behaviours();
+        // Adiciona animação para modificar a função draw
+        void add_animation(Animation* animation);
 
-        // Getters e Setters
+        // Getters e Setters para parâmetros de movimento e dimensão
         void set(std::string key, Vector2 value);
         Vector2 get(std::string key);
 
-        Vector2 get_dimension();
+        // Getter para o retângulo do MotionObject
+        Rectangle get_rectangle();
 
-        void set_dead();
-    
+        // Setter para o ponteiro do jogo
+        void set_game(Game* game);
 
     protected:
-        // Posição, Velocidade e Aceleração
-        std::map<std::string, Vector2> _parameters_motion;
+        // Ponteiro para o jogo
+        static Game* _game;
 
-        // Adicionar um comportamento
+        // Posição, Velocidade, Aceleração e Dimensão
+        std::map<std::string, Vector2> _parameters;
+
+        // Representação retangular do objeto
+        Rectangle _rectangle;
+
+        // Comportamentos do objeto
         std::vector<Behaviour*> _behaviours;
 
-        // Dimensão do MotionObject
-        Vector2 _object_dimension;
+        // Animações do objeto
+        std::vector<Animation*> _animations;
 
-        bool _alive;
-
-        std::string _graphic_key;
-
+        // Modifica a posição do retângulo
+        void _update_rectangle();
 };
 
 #endif

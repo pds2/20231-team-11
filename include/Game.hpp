@@ -2,18 +2,24 @@
 #define GAME_H
 
 #include <raylib-cpp.hpp>
+#include <thread>
 #include <map>
 #include <string>
 #include <iterator>
+#include <iostream>
 #include <list>
 
+#include "Behaviour.hpp"
+#include "Colors.hpp"
+#include "Settings.hpp"
+#include "Animation.hpp"
 #include "MotionObject.hpp"
 #include "Ship.hpp"
 #include "Alien.hpp"
-#include "Behaviour.hpp"
-#include "Settings.hpp"
 
-class Ship;
+class Animation;
+class Behaviour;
+
 
 class Game {
     public:
@@ -21,7 +27,7 @@ class Game {
         ~Game();
 
         // Configura janelas e inicializa objetos do jogo
-        bool initialize();
+        void initialize();
 
         // Render Loop
         void run_loop();
@@ -29,11 +35,16 @@ class Game {
         // Fecha jogo
         void shutdown();
 
-        // Setters e Getters
-        Behaviour* get_behaviour(std::string key);
-
+        // Adiciona bala
         void add_bullet(MotionObject* bullet);
-    
+
+        // Setter e Getters
+        Behaviour* get_behaviour(std::string key);
+        
+        Animation* get_animation(std::string key);
+
+        bool get_inputs(std::string key);
+
     private:
         // Recebe entradas do usuário (teclado e mouse)
         void _process_input();
@@ -44,11 +55,14 @@ class Game {
         // Desenha o novo estado do jogo
         void _draw_game();
 
-        // Checagem de colisões
+        // Checa se houve colisões
         void _check_colisions();
 
-        // Finaliza o jogo
-        void _end_game();
+        // Carrega animações
+        void inline _load_animations();
+
+        // Carrega comportamentos
+        void inline _load_behaviours();
 
         // Load graphics
         void inline _load_graphics();
@@ -56,30 +70,44 @@ class Game {
         // Unload graphics
         void inline _unload_graphics();
 
-        // Objetos que descrevem o estado do jogo
-        Ship* _ship;
-        std::list<Alien*> _aliens;
-        std::list<MotionObject*> _bullets;
-        std::list<MotionObject*> _deads;
+        // Constroi objetos do jogo
+        void inline _build_objects();
 
-        // Comportamentos do jogo
-        std::map<std::string, Behaviour*> _behaviours;
+        // Constroi aliens do jogo
+        void inline _build_aliens();
 
-        // Inputs
-        std::map<std::string, bool> _key_inputs;
-        raylib::Vector2 _mouse_position;
+        // Reseta o jogo
+        void _reset_game();
+
+        // Finaliza o jogo
+        void _game_over();
 
         // Gráficos
         std::map<std::string, Texture2D> _textures;
-        std::map<std::string, Rectangle> _rectangles;
 
-        // Flag booleana indicando status do jogo
+        // Comportamento do jogo
+        std::map<std::string, Behaviour*> _behaviours;
+
+        // Animação do jogo
+        std::map<std::string, Animation*> _animations;
+
+        // Fonte do jogo
+        Font _font;
+
+        // Objetos do jogo
+        Ship* _ship;
+        std::list<MotionObject*> _bullets;
+        std::list<Alien*> _aliens;
+
+        // Inputs
+        std::map<std::string, bool> _key_inputs;
+        Vector2 _mouse_position;
+
+        // Score
+        unsigned _score;
+
+        // Game status
         bool _game_status;
-
-        // timer
-        float _timer;
-        
-
 };
 
 #endif

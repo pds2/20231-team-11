@@ -1,70 +1,68 @@
 #include "Ship.hpp"
+#include "Game.hpp"
 
 Ship::Ship() : MotionObject() {
 
 }
 
-Ship::Ship(Vector2 position, Vector2 velocity, Vector2 acceleration, Vector2 ship_dimension, std::string graphic_key) 
-    : MotionObject(position, velocity, acceleration, ship_dimension, graphic_key) {
-        _total_charge = 10;
-        _current_charge = 0;
-       _timer_frame = 0.2f;
-       _frame = 0;
+Ship::~Ship() {
 
-       // Textura com 10 frames para a nave
-       _num_frames = 10;
-        
 }
 
-Ship::~Ship() {
+
+Ship::Ship(Vector2 position, Vector2 velocity, Vector2 acceleration, Vector2 ship_dimension) 
+    : MotionObject(position, velocity, acceleration, ship_dimension) {
+        _total_charge = 0.2f; 
+        _current_charge = 0.0f;
+        _life = 3;
+}
+
+void Ship::update(float delta_time) {
+    // Atualização relativa a comportamentos: posição, velocidade, aceleração; e ao retângulo do objeto
+    MotionObject::update();
+
+    // Atualização relativa a carga da bala
+    if (is_charged() && _game->get_inputs("fire")) {
+        // Crie uma bala e adicione ao estado do jogo
+        fire_bullet();
+        // Zerando a carga
+        _current_charge = 0.0f;
+        // Termine a função
+        return;
+    }
+
+    // Carregue a bala
+    _current_charge = is_charged() ? _total_charge : _current_charge + delta_time;
+
 }
 
 bool Ship::is_charged() {
-    return _current_charge == _total_charge;
+    return _current_charge >= _total_charge;
 }
 
-void Ship::add_charge() {
-    if (!is_charged()) {
-        ++_current_charge;
-    }
-}
+void Ship::fire_bullet() {
+    // Cria uma bala no topo da nave
+    Vector2 bullet_position = Vector2Subtract(_parameters.at("position"), Vector2 {0, _parameters.at("dimension").y/2.0f});
+    MotionObject* bullet = new MotionObject(bullet_position, Vector2 {0, -10}, Vector2 {0, 0}, Vector2 {20, 50});
 
-void Ship::fire_bullet(Game* game) {
-    // Canhão carregado: crie uma bala no topo da nave
-    Vector2 bullet_position = Vector2Subtract(_parameters_motion.at("position"), Vector2 {0, _object_dimension.y/2});
-    MotionObject* bullet = new MotionObject(bullet_position, Vector2 {0, -10}, Vector2 {0, 0}, Vector2 {3, 30}, "bullet");
+    // Adiciona comportamento a bala
+    bullet->add_behaviour(_game->get_behaviour("default-bullet"));
+
+    // Adiciona animação a bala
+    bullet->add_animation(_game->get_animation("bullet"));
     
-    // Adicionar comportamento
-    bullet->add_behaviour(game->get_behaviour("default_bullet"));
-    
-    // Adicionae a bale no estado do jogo
-    game->add_bullet(bullet);
-
-    // Canhão descarregado
-    _current_charge = 0;
+    // Adicionae a bala so estado do jogo
+    _game->add_bullet(bullet);
 }
 
-void Ship::_update_frame() {
-    _frame = _frame == _num_frames - 1 ? 0 : _frame+1;
+// Nave mata a si mesma:  estranho?? kill_ship deve ser um método um método do jogo?
+int Ship::kill_ship() {
+    --_life;
+    std::cout << TERMINAL_BOLDRED << "VIDA: " << _life <<TERMINAL_RESET << std::endl;
+    return _life;
 }
 
-void Ship::draw(std::map<std::string, Texture2D>& textures, float* timer) {
-    if (*timer >= _timer_frame) {
-        _update_frame();
-        *timer = 0.0f;
-    }
-
-    float width = textures.at(_graphic_key).width;
-    float height = textures.at(_graphic_key).height;
-
-    // index 0 para os 5 primeiros frames e 1 para os 5 últimos
-    float idy = (float) (_frame / 5);
-    // indica a posição em x da origem do retângulo
-    float idx = (float) (_frame % 5);
-
-    DrawTexturePro(textures.at(_graphic_key), (Rectangle) {idx * (width/5.0f), idy * (height / 2.0f), width/5.0f, height/2.0f},
-                   (Rectangle) {_parameters_motion.at("position").x, 
-                    _parameters_motion.at("position").y, 
-                    _object_dimension.x, _object_dimension.y},
-                    Vector2 {_object_dimension.x/2, _object_dimension.y/2}, 0, WHITE);
-};
+// Getters life
+int Ship::get_life() {
+    return _life;
+}

@@ -3,13 +3,26 @@
 ├── Makefile
 ├── README.md
 ├── build
+├── build_grid.zsh
 ├── images
+│   ├── alexandria
+│   │   ├── alien_grid.png
+│   │   ├── bullet_grid.png
+│   │   ├── mapa.png
+│   │   └── ship_grid.png
+│   ├── auxiliar
+│   │   ├── game00.jpg
+│   │   └── game01.png
 │   ├── bullet.png
+│   ├── explosion.png
+│   ├── power-up.png
+│   ├── ship.png
 │   ├── space.png
 │   ├── spaceship_red.png
 │   └── spaceship_yellow.png
 ├── include
 │   ├── Alien.hpp
+│   ├── Animation.hpp
 │   ├── Behaviour.hpp
 │   ├── Colors.hpp
 │   ├── Game.hpp
@@ -23,13 +36,16 @@
 │       └── libraylib.a
 ├── src
 │   ├── Alien.cpp
+│   ├── Animation.cpp
 │   ├── Behaviour.cpp
 │   ├── Game.cpp
 │   ├── MotionObject.cpp
 │   ├── Ship.cpp
 │   └── main.cpp
 ├── text
-│   ├── info.txt
+│   ├── Halo3.ttf
+│   ├── Herculanum.ttf
+│   ├── info.md
 │   └── tree.txt
 └── thirdy_party
     ├── AudioDevice.hpp
@@ -73,4 +89,4 @@
     ├── raymath.h
     └── raymath.hpp
 
-10 directories, 64 files
+12 directories, 78 files
