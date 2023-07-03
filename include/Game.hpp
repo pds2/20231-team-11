@@ -31,6 +31,7 @@ class Game {
 
         // Render Loop
         void run_loop();
+        void show_menu();
 
         // Fecha jogo
         void shutdown();
@@ -108,6 +109,7 @@ class Game {
 
         // Game status
         bool _game_status;
+        bool _pause;
 };
 
 #endif
