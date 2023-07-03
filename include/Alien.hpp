@@ -10,7 +10,7 @@ class Alien : public MotionObject {
         
         ~Alien();
 
-        // Getter
+        // GetterAlien
         unsigned get_score();
     
     protected:
