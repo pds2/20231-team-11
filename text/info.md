@@ -43,3 +43,8 @@
             deleto o objeto e a animação não é mais chamada
     
     2. O ponteiro Game* game é passado na construção de todos os MotionObjects, não teria uma forma de armazená-lo como statics atribute na classe MotionObject, de modo que todas as instâncias tenham acesso a ele e encurtando o construtor??
+
+## Comportamentos
+    Comportamento do tipo S, sobrescrevem a velocidade e aceleração do objeto com a velocidade e aceleração do comportamento.
+        Ex.: DefaultShipBehaviourS
+    

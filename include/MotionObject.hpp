@@ -20,7 +20,9 @@ class MotionObject {
         MotionObject();
 
         // Construtor com especificação do estado
-        MotionObject(Vector2 position, Vector2 velocity, Vector2 acceleration, Vector2 dimension);
+        MotionObject(Vector2 position, Vector2 velocity, 
+        Vector2 acceleration, Vector2 dimension, 
+        float speed_limit=1.0f, float acceleration_limit=0.5f);
 
         // Destrutor
         ~MotionObject();
@@ -44,6 +46,10 @@ class MotionObject {
         // Getter para o retângulo do MotionObject
         Rectangle get_rectangle();
 
+        // Getter para limites de velocidade e aceleração
+        float get_speed_limit();
+        float get_acceleration_limit();
+
         // Setter para o ponteiro do jogo
         void set_game(Game* game);
 
@@ -65,6 +71,10 @@ class MotionObject {
 
         // Modifica a posição do retângulo
         void _update_rectangle();
+
+        // Limites de velocidade e aceleração
+        float _speed_limit;
+        float _acceleration_limit;
 };
 
 #endif

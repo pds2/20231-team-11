@@ -98,10 +98,9 @@ void inline Game::_load_animations() {
 
 void inline Game::_load_behaviours() {
     // Comportamentos do jogo; 
-    _behaviours["follow-mouse"] = new FollowMouseBehaviour();
+    _behaviours["follow-mouse"] = new FollowMouseBehaviour(1.0f);
     _behaviours["default"] = new Behaviour();
-    _behaviours["default-ship"] = new DefaultShipBehaviour(&_key_inputs);
-    _behaviours["default-bullet"] = new DefaultBulletBehaviour();
+    _behaviours["default-ship"] = new DefaultShipBehaviourS(&_key_inputs, Vector2 {10, 0.0});
 }
 
 void inline Game::_build_objects() {
@@ -345,4 +344,4 @@ Animation* Game::get_animation(std::string key) {
  bool Game::get_inputs(std::string key){
     return _key_inputs.at(key);
  }
-
+ 

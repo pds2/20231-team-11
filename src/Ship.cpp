@@ -46,7 +46,7 @@ void Ship::fire_bullet() {
     MotionObject* bullet = new MotionObject(bullet_position, Vector2 {0, -10}, Vector2 {0, 0}, Vector2 {20, 50});
 
     // Adiciona comportamento a bala
-    bullet->add_behaviour(_game->get_behaviour("default-bullet"));
+    bullet->add_behaviour(_game->get_behaviour("default"));
 
     // Adiciona animação a bala
     bullet->add_animation(_game->get_animation("bullet"));
