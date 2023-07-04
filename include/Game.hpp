@@ -8,7 +8,6 @@
 #include <iterator>
 #include <iostream>
 #include <list>
-#include <cstring>
 
 #include "Behaviour.hpp"
 #include "Colors.hpp"
