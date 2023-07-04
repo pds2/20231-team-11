@@ -96,3 +96,30 @@ float MotionObject::get_speed_limit() {
 float MotionObject::get_acceleration_limit() {
     return _acceleration_limit;
 }
+
+// MOTION_OBJECT_TEMP
+MotionObjectTemp::MotionObjectTemp() : MotionObject() {
+
+}
+
+MotionObjectTemp::MotionObjectTemp(
+    Game* game, float end_time, float born_time, Vector2 position, 
+    Vector2 velocity, Vector2 acceleration, Vector2 dimension, 
+    float speed_limit, float acceleration_limit) :
+    MotionObject(position, velocity, acceleration, dimension, speed_limit, acceleration_limit), 
+    _game(game) {
+
+}
+
+MotionObjectTemp::~MotionObjectTemp() {
+    
+}
+
+
+void MotionObjectTemp::update(float delta_time) {
+    _born_time += delta_time;
+}
+
+bool MotionObjectTemp::is_dead() {
+    return _born_time >= _end_time;
+}

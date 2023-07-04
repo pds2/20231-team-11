@@ -137,14 +137,23 @@ protected:
     float _acceleration_limit;
 };
 
-// class MotionObjectTemp : public MotionObject {
-//     public:
-//         MotionObjectTemp();
-//         MotionObjectTemp(Game* game);
+class MotionObjectTemp : public MotionObject {
+    public:
+        MotionObjectTemp();
+        MotionObjectTemp(Game* game, float end_time, float born_time, Vector2 position, Vector2 velocity, 
+                           Vector2 acceleration, Vector2 dimension, 
+                           float speed_limit=1.0f, float acceleration_limit=0.1f);
+
+        ~MotionObjectTemp();
+
+        void update(float delta_time);
+        bool is_dead();
     
-//     private:
-//         float _born_time;
-//         float _end_time;
-// }
+    private:
+        float _born_time;
+        float _end_time;
+
+        Game* _game;
+};
 
 #endif
