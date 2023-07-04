@@ -7,6 +7,7 @@
 #define FPS 60
 
 #define BACKGROUND_TEXTURE "images/alexandria/mapa.png"
+#define MENU_TEXTURE "images/space.png"
 #define SHIP_TEXTURE "images/alexandria/ship_grid.png"
 #define ALIEN_TEXTURE "images/alexandria/alien_grid.png"
 #define BULLET_TEXTURE "images/alexandria/bullet_grid.png"

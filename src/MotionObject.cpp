@@ -37,14 +37,9 @@ MotionObject::~MotionObject() {
 void MotionObject::update() {
     // Modifica a posição do objeto
 
-    // Modifica aceleração do objeto
+    // Modifica aceleração e velocidade do objeto
     for (auto it = _behaviours.begin(); it != _behaviours.end(); it++) {
         (*it)->update(this);
-    }
-
-    _parameters.at("velocity") =  Vector2Add(_parameters.at("velocity"), _parameters.at("acceleration"));
-    if (Vector2Length(_parameters.at("velocity")) > _speed_limit) {
-        _parameters.at("velocity") = Vector2Scale(_parameters.at("velocity"), _speed_limit);
     }
 
     float width = _parameters.at("dimension").x;

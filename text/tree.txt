@@ -4,13 +4,26 @@
 ├── README.md
 ├── build
 ├── build_grid.zsh
+├── fonts
+│   ├── GeorgiaBoldItalic.ttf
+│   ├── Halo3.ttf
+│   ├── Herculanum.ttf
+│   ├── Impact.ttf
+│   ├── PixelSquare10.ttf
+│   └── PixelSquareBold10.ttf
 ├── images
 │   ├── alexandria
+│   │   ├── alien_bulllet_exp.png
+│   │   ├── alien_exp.png
 │   │   ├── alien_grid.png
+│   │   ├── background_exp.png
+│   │   ├── bullet_exp.png
 │   │   ├── bullet_grid.png
 │   │   ├── mapa.png
+│   │   ├── ship_exp.png
 │   │   └── ship_grid.png
 │   ├── auxiliar
+│   │   ├── game.jpg
 │   │   ├── game00.jpg
 │   │   └── game01.png
 │   ├── bullet.png
@@ -34,6 +47,8 @@
 │   │   └── libraylib.a
 │   └── macOS
 │       └── libraylib.a
+├── program
+│   └── tests.cpp
 ├── src
 │   ├── Alien.cpp
 │   ├── Animation.cpp
@@ -43,9 +58,8 @@
 │   ├── Ship.cpp
 │   └── main.cpp
 ├── text
-│   ├── Halo3.ttf
-│   ├── Herculanum.ttf
 │   ├── info.md
+│   ├── info.txt
 │   └── tree.txt
 └── thirdy_party
     ├── AudioDevice.hpp
@@ -81,6 +95,7 @@
     ├── VrStereoConfig.hpp
     ├── Wave.hpp
     ├── Window.hpp
+    ├── doctest.hpp
     ├── physac.hpp
     ├── raylib-cpp-utils.hpp
     ├── raylib-cpp.hpp
@@ -89,4 +104,4 @@
     ├── raymath.h
     └── raymath.hpp
 
-12 directories, 78 files
+14 directories, 91 files

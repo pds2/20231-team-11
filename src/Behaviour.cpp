@@ -13,52 +13,32 @@ void Behaviour::update(MotionObject* motion_object) {
 
 }
 
-void Behaviour::update_acceleration(MotionObject* motion_object, Vector2 delta_acceleration) {
-    Vector2 new_acceleration = Vector2Add(motion_object->get("acceleration"), delta_acceleration);
-    float acceleration_limit = motion_object->get_acceleration_limit();
-    if (Vector2Length(new_acceleration) > acceleration_limit) {
-        new_acceleration = Vector2Scale(new_acceleration, acceleration_limit);
-    }
-
-    motion_object->set("acceleration", new_acceleration);
-}
-
-// FOLLOW_MOUSE_BEHAVIOUR
-FollowMouseBehaviour::FollowMouseBehaviour(float delta_acceleration_size) {
-    _delta_acceleration_size = delta_acceleration_size;
-};
-
-FollowMouseBehaviour::~FollowMouseBehaviour() {
-
-};
-
-void FollowMouseBehaviour::update(MotionObject* motion_object) {
-    Vector2 direction = Vector2Subtract(motion_object->get("position"), GetMousePosition());
-    Vector2 delta_acceleration = Vector2Scale(direction, _delta_acceleration_size);
-    update_acceleration(motion_object, delta_acceleration);
-};
-
 
 // DEFAULT_SHIP_BEHAVIOUR
 
-DefaultShipBehaviourS::DefaultShipBehaviourS(std::map<std::string, bool>* key_inputs, Vector2 velocity)
+DefaultShipBehaviour::DefaultShipBehaviour(std::map<std::string, bool>* key_inputs, Vector2 velocity)
     : _key_inputs(key_inputs), _velocity(velocity) {
 }
 
 
-DefaultShipBehaviourS::~DefaultShipBehaviourS() {
+DefaultShipBehaviour::~DefaultShipBehaviour() {
 
 }
 
-void DefaultShipBehaviourS::update(MotionObject* motion_object) {
+void DefaultShipBehaviour::update(MotionObject* motion_object) {
     // Movimento retilíneo e uniforme da nave (velocidade constante e aceleração nula)
     // A velocidade da nave é sobrescrita pela do objeto
     Vector2 velocity= motion_object->get("velocity");
-
     bool move_right = _key_inputs->at("move-right"), move_left = _key_inputs->at("move-left");
     velocity.x = move_right * _velocity.x - move_left * _velocity.x;
     velocity.y = _velocity.y;
+
+    if (Vector2Length(velocity) > motion_object->get_speed_limit()) {
+        velocity = Vector2Scale(velocity, motion_object->get_speed_limit());
+    }
+    
     motion_object->set("velocity", velocity);
+
 }
 
 

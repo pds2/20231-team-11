@@ -32,9 +32,6 @@ class Game {
         // Render Loop
         void run_loop();
 
-        // Fecha jogo
-        void shutdown();
-
         // Adiciona bala
         void add_bullet(MotionObject* bullet);
 
@@ -81,6 +78,12 @@ class Game {
 
         // Finaliza o jogo
         void _game_over();
+
+        // Desenha o menu
+        void _show_menu();
+
+        // Fecha jogo
+        void _shutdown();
 
         // Gráficos
         std::map<std::string, Texture2D> _textures;

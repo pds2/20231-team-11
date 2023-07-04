@@ -13,29 +13,15 @@ class Behaviour {
         Behaviour();
         ~Behaviour();
 
-        virtual void update(MotionObject* motion_object);
-        void update_acceleration(MotionObject* motion_object, Vector2 delta_acceleration);
-
+        virtual void update(MotionObject* motion_object);       
 };
 
 
-class FollowMouseBehaviour : public Behaviour {
-    public:
-        FollowMouseBehaviour(float delta_acceleration_size);
-        ~FollowMouseBehaviour();
-
-        void update(MotionObject* motion_object) override;
-    
-    private:
-        float _delta_acceleration_size;
-};
-
-
-class DefaultShipBehaviourS : public Behaviour {
+class DefaultShipBehaviour : public Behaviour {
     // Movimento de velocidade constante da nave
     public:
-        DefaultShipBehaviourS(std::map<std::string, bool>* key_inputs, Vector2 velocity);
-        ~DefaultShipBehaviourS();
+        DefaultShipBehaviour(std::map<std::string, bool>* key_inputs, Vector2 velocity);
+        ~DefaultShipBehaviour();
 
         virtual void update(MotionObject* motion_object) override;
     
@@ -45,6 +31,7 @@ class DefaultShipBehaviourS : public Behaviour {
           
         
 };
+
 
 // KAMIKAZE_BEHAVIOUR
 class KamikazeBehaviour : public Behaviour {
