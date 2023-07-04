@@ -3,6 +3,7 @@
 
 #include "MotionObject.hpp"
 
+
 class Alien : public MotionObject {
 public:
     /**
