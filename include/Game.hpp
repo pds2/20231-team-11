@@ -8,6 +8,7 @@
 #include <iterator>
 #include <iostream>
 #include <list>
+#include <cstring>
 
 #include "Behaviour.hpp"
 #include "Colors.hpp"
@@ -21,18 +22,23 @@ class Animation;
 class Behaviour;
 
 
+/*
+* @brief Classe principal do jogo responsável por gerenciar todos os objetos de movimento,
+* comportamentos e animações
+*/
 class Game {
     public:
+        // Construtor e destrutor padrão do jogo
         Game();
         ~Game();
 
         // Configura janelas e inicializa objetos do jogo
         void initialize();
 
-        // Render Loop
+        // Loop principal do jogo. Responsáve
         void run_loop();
 
-        // Adiciona bala
+        // Adiciona bala ao estado do jogo
         void add_bullet(MotionObject* bullet);
 
         // Setter e Getters
