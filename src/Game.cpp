@@ -1,5 +1,7 @@
 #include "Game.hpp"
 
+#include <cstring>
+
 Game::Game() {
     // Inputs
     _key_inputs = { {"move-right", false}, {"move-left", false}, {"fire", false}};
@@ -24,6 +26,7 @@ Game::Game() {
 
     // Game status
     _game_status = true;
+    _pause = false;
 
     // Ponteiro para o jogo para as instâncias MotionObject;
     MotionObject motion_object;
@@ -139,11 +142,53 @@ void inline Game::_build_objects() {
  }
 
 
+
+void Game::show_menu() {
+    bool menu_active = true;
+    int selected_option = 0;
+
+    while (menu_active) {
+        BeginDrawing();
+        ClearBackground(BLACK);
+
+        // Desenhar o texto do menu
+        DrawText("Menu", SCREEN_WIDTH / 2 - 50, 100, 30, WHITE);
+
+        // Desenhar as opções do menu
+        DrawText("Start", SCREEN_WIDTH / 2 - 40, 200, 20, selected_option == 0 ? RED : WHITE);
+        DrawText("Exit", SCREEN_WIDTH / 2 - 30, 250, 20, selected_option == 1 ? RED : WHITE);
+
+        // Lógica de seleção das opções
+        if (IsKeyPressed(KEY_DOWN)) {
+            selected_option = (selected_option + 1) % 2;
+        }
+        else if (IsKeyPressed(KEY_UP)) {
+            selected_option = (selected_option - 1 + 2) % 2;
+        }
+        else if (IsKeyPressed(KEY_ENTER)) {
+            if (selected_option == 0) {
+                // Opção "Start" selecionada
+                menu_active = false;
+            }
+            else if (selected_option == 1) {
+                // Opção "Exit" selecionada
+                CloseWindow();
+                exit(0);
+            }
+        }
+
+        EndDrawing();
+    }
+}
+
+
 void Game::run_loop() {
     
     // Loop principal do jogo
- 
+    show_menu();
+
      while(!WindowShouldClose() && _game_status) {
+
         _process_input();
         _update_game();
         _draw_game();
@@ -151,8 +196,12 @@ void Game::run_loop() {
 
 }
 
+
 void Game::_process_input() {
     // Captura as entradas: mouse e teclado
+    if (IsKeyPressed(KEY_P)){
+        _pause = !_pause;
+    }
     _mouse_position = GetMousePosition();
 
     _key_inputs.at("move-right") = IsKeyDown(MOVE_RIGHT_KEY);
@@ -162,6 +211,10 @@ void Game::_process_input() {
 }
 
 void Game::_update_game() {
+    if(_pause == true){
+        return;
+    }
+
     float time = GetFrameTime();
 
     // Atualiza as animações do jogo
@@ -310,6 +363,10 @@ void Game::_draw_game() {
         DrawTexturePro(ship_tx, (Rectangle) {0, 0, (float) ship_tx.width/4.0f, (float) ship_tx.height/3.0f}, 
         (Rectangle) {SCREEN_WIDTH - i*35.0f, 0, 30.0f, 30.0f}, 
         Vector2Zero(), 0.0f, WHITE);
+    }
+
+    if(_pause == true){
+        DrawText("PAUSED", 490, 420, 50, YELLOW);
     }
 
 
