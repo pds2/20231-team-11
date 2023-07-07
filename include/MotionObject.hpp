@@ -95,6 +95,9 @@ public:
      */
     void set_game(Game* game);
 
+    virtual void kill();
+    bool is_alive();
+
 protected:
     /**
      * @brief Ponteiro para o jogo
@@ -135,25 +138,28 @@ protected:
      * @brief Limite de aceleração do objeto
      */
     float _acceleration_limit;
+
+    /**
+     * @brief valor booleano que indica se o objeto está vivo
+     */
+    bool _alive;
 };
 
 class MotionObjectTemp : public MotionObject {
     public:
         MotionObjectTemp();
-        MotionObjectTemp(Game* game, float end_time, float born_time, Vector2 position, Vector2 velocity, 
+        MotionObjectTemp(float end_time, float born_time, Vector2 position, Vector2 velocity, 
                            Vector2 acceleration, Vector2 dimension, 
                            float speed_limit=1.0f, float acceleration_limit=0.1f);
 
         ~MotionObjectTemp();
 
         void update(float delta_time);
-        bool is_dead();
+        void kill() override;
     
     private:
         float _born_time;
         float _end_time;
-
-        Game* _game;
 };
 
 #endif

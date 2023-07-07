@@ -45,7 +45,7 @@ public:
      * @brief Diminui a vida da nave
      * @return Nova vida da nave após o dano
      */
-    int kill_ship();
+    void kill() override;
 
     /**
      * @brief Retorna a vida atual da nave

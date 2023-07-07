@@ -18,12 +18,13 @@ Game::Game() {
     _ship = nullptr;
     _bullets = std::list<MotionObject*>();
     _aliens = std::list<Alien*>();
+    _explosions = std::list<MotionObjectTemp*>();
 
     // Score
     _score = 0u;
 
     // Game status
-    _game_status = false;
+    _game_status = true;
 
     // Ponteiro para o jogo para as instâncias MotionObject;
     MotionObject motion_object;
@@ -138,51 +139,12 @@ void inline Game::_build_objects() {
     }
  }
 
-void Game::_show_menu() {
-    int selected_option = 0;
-
-    while (!_game_status) {
-        BeginDrawing();
-
-        Texture2D menu_texture = _textures.at("menu");
-        DrawTexturePro(menu_texture, (Rectangle) {0, 0, (float) menu_texture.width, (float) menu_texture.height}, 
-        (Rectangle) {0, 0, (float) SCREEN_WIDTH, (float) SCREEN_HEIGHT}, 
-        Vector2Zero(), 0, WHITE);
-
-        // Desenhar as opções do menu
-        DrawText("Menu", SCREEN_WIDTH / 2 - MeasureText("Menu", 30) / 2, 100, 30, WHITE);
-        DrawText("Start", SCREEN_WIDTH / 2 - MeasureText("Start", 20) / 2, 200, 20, selected_option == 0 ? RED : WHITE);
-        DrawText("Exit", SCREEN_WIDTH / 2 - MeasureText("Exit", 20) / 2, 250, 20, selected_option == 1 ? RED : WHITE);
-
-        // Lógica de seleção das opções
-        if (IsKeyPressed(KEY_DOWN)) {
-            selected_option = (selected_option + 1) % 2;
-        }
-        else if (IsKeyPressed(KEY_UP)) {
-            selected_option = (selected_option - 1 + 2) % 2;
-        }
-        else if (IsKeyPressed(KEY_ENTER)) {
-            if (selected_option == 0) {
-                // Opção "Start" selecionada
-                _game_status = true;
-            }
-            else if (selected_option == 1) {
-                // Opção "Exit" selecionada
-                _shutdown();
-            }
-        }
-
-        EndDrawing();
-    }
-}
-
 
 void Game::run_loop() {
     
     // Loop principal do jogo
     
-     while(!WindowShouldClose()) {
-        _show_menu();
+     while(!WindowShouldClose() && _game_status) {
         _process_input();
         _update_game();
         _draw_game();
@@ -203,12 +165,12 @@ void Game::_process_input() {
 void Game::_update_game() {
     float time = GetFrameTime();
 
-    // Atualiza as animações do jogo
+    // Atualiza as animações do jogo:  tempo
     for (std::pair<std::string, Animation*> animation_pair : _animations) {
         animation_pair.second->update(time);
     }
     
-    // Atualiza as balas do jogo
+    // Atualiza as balas do jogo: movimento
     for (MotionObject* bullet : _bullets) {
         bullet->update(); 
     }
@@ -217,12 +179,20 @@ void Game::_update_game() {
     for (Alien* alien : _aliens) {
         alien->update();
     }
+
+    //Atualiza as explosões do jogo: movimento e tempo
+    for (MotionObjectTemp* explosion : _explosions) {
+        explosion->update(time);
+    }
   
-    // Atualização a nave do jogador
+    // Atualização a nave do jogador : movimento e tempo
     _ship->update(time);
 
-    // Checar colisões [pode ser uma função separa no run_loop]
+    // Checar colisões entre os objetos
     _check_colisions();
+
+    // Deleta objetos mortos
+    _delete_deads();
 }
 
 void Game::_check_colisions() {
@@ -231,45 +201,53 @@ void Game::_check_colisions() {
     for (std::list<Alien*>::iterator it_a=_aliens.begin(); it_a!=_aliens.end();) {
         
         if ((*it_a)->get("position").y > SCREEN_HEIGHT) {
-            delete *it_a;
-            it_a = _aliens.erase(it_a);
-
+            (*it_a)->kill();
             continue;
         }
         
         // Checar colisão entre os retângulos do jogador e do alien: resetar jogo
         if (CheckCollisionRecs(ship_rectangle, (*it_a)->get_rectangle())) {
+            _ship->kill();
+            (*it_a)->kill();
+            std::cout << TERMINAL_BOLDBLACK << "Ship Colission!"<< TERMINAL_RESET << std::endl;
+
             _reset_game();
             return;
         }
 
         bool colision=false;
         // Checar colisão entre os retângulos do alien com os retângulos das balas
-        for (std::list<MotionObject*>::iterator it_b=_bullets.begin(); it_b!=_bullets.end();) {
+        for (std::list<MotionObject*>::iterator it_b=_bullets.begin(); it_b!=_bullets.end();++it_b) {
              if (CheckCollisionRecs((*it_a)->get_rectangle(), (*it_b)->get_rectangle())) {
                 // Houve colisão
                 colision=true;
                 // Atualiza o score do jogo
                 _score += (*it_a)->get_score();
                 std::cout << TERMINAL_BOLDCYAN << "SCORE: " << _score << TERMINAL_RESET << std::endl;
-                // deleta o alien e a bala do HEAP e do estado do jogo
-                delete *it_a;
-                it_a = _aliens.erase(it_a);
-                delete *it_b;
-                it_b = _bullets.erase(it_b);
+                // cria uma explosão
+                MotionObjectTemp* explosion = new MotionObjectTemp(0.5f, 0.0f, (*it_a)->get("position"), 
+                Vector2 {0, 0}, Vector2 {20, 50}, (*it_a)->get("dimension"));
 
+                // Adiciona comportamento a explosão
+                explosion->add_behaviour(_behaviours.at("default"));
+
+                // Adiciona animação a explosão
+                explosion->add_animation(_animations.at("explosion"));
+                
+                // Adiciona a explosão ao estado do jogo
+                _explosions.push_back(explosion);
+
+                (*it_a)->kill();
+                (*it_b)->kill();
+                ++it_a;
                 break;
              }
 
             // Bala atinge o topo da tela
             if ((*it_b)->get("position").y < 0) {
-                delete (*it_b);
-                it_b = _bullets.erase(it_b);
-                continue;
+                (*it_b)->kill();
              }
             
-            // Nenhuma colisão: passar para a próxima bala
-            ++it_b;
         }
 
         if (!colision) {
@@ -279,16 +257,37 @@ void Game::_check_colisions() {
     }
 }
 
-void Game::_reset_game() {
-    // Diminui a vida da nave e checa game_over
-    if (_ship->kill_ship() == 0) {
-        _game_over();
-        return;
+void Game::_delete_deads() {
+    for (std::list<MotionObject*>::iterator it_b = _bullets.begin(); it_b != _bullets.end();) {
+        if (!((*it_b))->is_alive()) {
+            delete (*it_b);
+            it_b = _bullets.erase(it_b);
+        } else {
+            ++it_b;
+        }
     }
-    
-    // Reinicio a nave na posição bottom-center da tela
-    _ship->set("position", Vector2 {SCREEN_WIDTH/2, SCREEN_HEIGHT - _ship->get("dimension").y/2.0f});
-    
+
+    for (std::list<Alien*>::iterator it_a = _aliens.begin(); it_a != _aliens.end();) {
+        if (!((*it_a)->is_alive())) {
+            delete (*it_a);
+            it_a = _aliens.erase(it_a);
+        } else {
+            ++it_a;
+        }
+    }
+
+    for (std::list<MotionObjectTemp*>::iterator it_e = _explosions.begin(); it_e != _explosions.end();) {
+        if (!((*it_e))->is_alive()) {
+            delete (*it_e);
+            it_e = _explosions.erase(it_e);
+        } else {
+            ++it_e;
+        }
+    }
+
+}
+
+void Game::_reset_game() {
     // Deletar todos dos objetos
     // Remover as balas
     for (MotionObject* bullet : _bullets) {
@@ -302,6 +301,21 @@ void Game::_reset_game() {
         delete alien;
     }
     _aliens.clear();
+
+    // Remover explosões
+    for (MotionObjectTemp* explosion : _explosions) {
+        delete explosion;
+    }
+    _explosions.clear();
+
+    // Diminui a vida da nave e checa game_over
+    if (!(_ship->is_alive())) {
+        _game_over();
+        return;
+    }
+    
+    // Reinicio a nave na posição bottom-center da tela
+    _ship->set("position", Vector2 {SCREEN_WIDTH/2, SCREEN_HEIGHT - _ship->get("dimension").y/2.0f});
 
     // Reconstruir os aliens
     _build_aliens();
@@ -340,6 +354,11 @@ void Game::_draw_game() {
         alien->draw();
     }
 
+    // Desenha as explosões no jogo
+    for (MotionObjectTemp* explosion : _explosions) {
+        explosion->draw();
+    }
+
     // Desenha a nave com as animações associadas
     _ship->draw();
 
@@ -355,7 +374,7 @@ void Game::_draw_game() {
     EndDrawing();
 }
 
-void Game::_shutdown() {
+void Game::shutdown() {
     UnloadFont(_font);
     _unload_graphics();
     CloseWindow();

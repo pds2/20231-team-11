@@ -27,6 +27,7 @@ MotionObject::MotionObject(Vector2 position, Vector2 velocity,
     // Limites de velocidade e aceleração
     _speed_limit = speed_limit;
     _acceleration_limit = acceleration_limit;
+    _alive = true;
 
 };
 
@@ -77,6 +78,14 @@ void MotionObject::set(std::string key, Vector2 value) {
     _parameters.at(key) = value;
 }
 
+void MotionObject::kill() {
+    _alive = false;
+}
+
+bool MotionObject::is_alive() {
+    return _alive;
+}
+
 void MotionObject::set_game(Game* game) {
     _game = game;
 }
@@ -102,24 +111,27 @@ MotionObjectTemp::MotionObjectTemp() : MotionObject() {
 
 }
 
-MotionObjectTemp::MotionObjectTemp(
-    Game* game, float end_time, float born_time, Vector2 position, 
+MotionObjectTemp::MotionObjectTemp(float end_time, float born_time, Vector2 position, 
     Vector2 velocity, Vector2 acceleration, Vector2 dimension, 
     float speed_limit, float acceleration_limit) :
-    MotionObject(position, velocity, acceleration, dimension, speed_limit, acceleration_limit), 
-    _game(game) {
+    MotionObject(position, velocity, acceleration, dimension, speed_limit, acceleration_limit), _end_time(end_time)
+    , _born_time(born_time){
 
 }
 
 MotionObjectTemp::~MotionObjectTemp() {
-    
+
 }
 
 
 void MotionObjectTemp::update(float delta_time) {
+    MotionObject::update();
     _born_time += delta_time;
+    kill();
+    // std::cout << TERMINAL_BOLDGREEN << "born_time: " << _born_time<< TERMINAL_RESET << std::endl;
+
 }
 
-bool MotionObjectTemp::is_dead() {
-    return _born_time >= _end_time;
+void MotionObjectTemp::kill() {
+    _alive = _born_time >= _end_time ? false : true;
 }

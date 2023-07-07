@@ -9,6 +9,7 @@ int main() {
 
     invaders.initialize();
     invaders.run_loop();
+    invaders.shutdown();
     
     return 0;
 }

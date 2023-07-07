@@ -55,11 +55,13 @@ void Ship::fire_bullet() {
     _game->add_bullet(bullet);
 }
 
-// Nave mata a si mesma:  estranho?? kill_ship deve ser um método um método do jogo?
-int Ship::kill_ship() {
+
+void Ship::kill() {
     --_life;
     std::cout << TERMINAL_BOLDRED << "VIDA: " << _life <<TERMINAL_RESET << std::endl;
-    return _life;
+    if (_life == 0) {
+        _alive = false;
+    }
 }
 
 // Getters life

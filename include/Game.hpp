@@ -45,6 +45,11 @@ public:
      * @brief Loop principal do jogo
      */
     void run_loop();
+
+    /**
+     * @brief Encerra o jogo
+     */
+    void shutdown();
     
     /**
      * @brief Adiciona uma bala ao estado do jogo
@@ -95,6 +100,11 @@ private:
     void _check_colisions();
     
     /**
+     * @brief Destroi objetos mortosa
+     */
+    void _delete_deads();
+    
+    /**
      * @brief Carrega as animações do jogo
      */
     void inline _load_animations();
@@ -138,11 +148,7 @@ private:
      * @brief Exibe o menu
      */
     void _show_menu();
-    
-    /**
-     * @brief Encerra o jogo
-     */
-    void _shutdown();
+
     
     // Gráficos
     std::map<std::string, Texture2D> _textures;
@@ -160,6 +166,7 @@ private:
     Ship* _ship;
     std::list<MotionObject*> _bullets;
     std::list<Alien*> _aliens;
+    std::list<MotionObjectTemp*> _explosions;
     
     // Inputs
     std::map<std::string, bool> _key_inputs;
