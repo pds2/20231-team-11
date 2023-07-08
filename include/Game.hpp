@@ -16,6 +16,7 @@
 #include "MotionObject.hpp"
 #include "Ship.hpp"
 #include "Alien.hpp"
+#include "Fleets.hpp"
 
 class Animation;
 class Behaviour;
@@ -56,6 +57,12 @@ public:
      * @param bullet Ponteiro para o objeto bala a ser adicionado
      */
     void add_bullet(MotionObject* bullet);
+
+     /**
+     * @brief Adiciona um alien ao estado do jogo
+     * @param bullet Ponteiro para o obeto alien
+     */
+    void add_alien(Alien* alien);
     
     /**
      * @brief Retorna o comportamento correspondente à chave fornecida
@@ -88,6 +95,8 @@ private:
      * @brief Atualiza o estado do jogo com base nas entradas
      */
     void _update_game();
+
+    void _update_objects();
     
     /**
      * @brief Desenha o novo estado do jogo
@@ -128,11 +137,7 @@ private:
      * @brief Constrói os objetos do jogo
      */
     void inline _build_objects();
-    
-    /**
-     * @brief Constrói os aliens do jogo
-     */
-    void inline _build_aliens();
+
     
     /**
      * @brief Reinicia o jogo
@@ -143,12 +148,8 @@ private:
      * @brief Finaliza o jogo
      */
     void _game_over();
-    
-    /**
-     * @brief Exibe o menu
-     */
-    void _show_menu();
 
+    void _clear();
     
     // Gráficos
     std::map<std::string, Texture2D> _textures;
@@ -167,6 +168,9 @@ private:
     std::list<MotionObject*> _bullets;
     std::list<Alien*> _aliens;
     std::list<MotionObjectTemp*> _explosions;
+
+    // Frotas
+    Fleets _fleets;
     
     // Inputs
     std::map<std::string, bool> _key_inputs;

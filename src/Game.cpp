@@ -20,6 +20,8 @@ Game::Game() {
     _aliens = std::list<Alien*>();
     _explosions = std::list<MotionObjectTemp*>();
 
+    _fleets = Fleets(this);
+
     // Score
     _score = 0u;
 
@@ -102,18 +104,13 @@ void inline Game::_load_behaviours() {
     // Comportamentos do jogo; 
     _behaviours["default"] = new Behaviour();
     _behaviours["default-ship"] = new DefaultShipBehaviour(&_key_inputs, Vector2 {10, 0.0});
+    _behaviours["zigzag"] = new ZigZagBehaviour();
 }
 
 void inline Game::_build_objects() {
-    // Todos os objetos serão construídos através de uma fleet.load(); fleet é uma classe a ser implementada
     // Construindo a nave do jogador
-    Vector2 velocity = {10.0f, 0.0f};
-    Vector2 acceleration = {0.0f, 0.0f};
     Vector2 dimension = {90.0f, 90.0f};
-    Vector2 position = {SCREEN_WIDTH/2, SCREEN_HEIGHT - dimension.y/2.0f};
-
-    // Configurando nave
-    _ship = new Ship(position, velocity, acceleration, dimension);
+    _ship = new Ship(Vector2 {SCREEN_WIDTH/2, SCREEN_HEIGHT - dimension.y/2.0f},  Vector2 {10.0f, 0.0f}, Vector2 {0.0f, 0.0f}, dimension);
 
     // Comportamento kamikaze com target: _ship
     // faz sentido criar esses comportamentos à medida que os objetos são criados
@@ -122,22 +119,11 @@ void inline Game::_build_objects() {
     // Adicionando comportamentos e animações
     _ship->add_behaviour(_behaviours.at("default-ship"));
     _ship->add_animation(_animations.at("ship"));
-    _build_aliens();
+    
+    // Carregando frota
+    _fleets.load();
    
 }
-
- void Game::_build_aliens() {
-    // Construindo os aliens
-    _aliens.push_back(new Alien(Vector2 {50.0f, 30.0f}, Vector2 {0.0f, 0.0f}, Vector2 {0.01f, 0.0f}, Vector2 {80.0f, 80.0f}));
-    _aliens.push_back(new Alien(Vector2 {300.0f, 40.0f}, Vector2 {0.0f, 0.0f}, Vector2 {0.01f, 0.0f}, Vector2 {100.0f, 100.0f}));
-    _aliens.push_back(new Alien(Vector2 {500.0f, 50.0f}, Vector2 {0.0f, 0.0f}, Vector2 {0.01f, 0.0f}, Vector2 {110.0f, 110.0f}));
-    _aliens.push_back(new Alien(Vector2 {800.0f, 50.0f}, Vector2 {0.0f, 0.0f}, Vector2 {0.01f, 0.0f}, Vector2 {50.0f, 50.0f}));
-
-    for (Alien* alien : _aliens) {
-        alien->add_behaviour(_behaviours.at("kamikaze-to-ship"));
-        alien->add_animation(_animations.at("alien"));
-    }
- }
 
 
 void Game::run_loop() {
@@ -163,8 +149,18 @@ void Game::_process_input() {
 }
 
 void Game::_update_game() {
-    float time = GetFrameTime();
+    // Atualiza objetos do jogo: balas, nave, aliens e explosoes
+    _update_objects();
 
+    // Checar colisões entre os objetos
+    _check_colisions();
+
+    // Deleta objetos mortos
+    _delete_deads();
+}
+
+void Game::_update_objects() {
+    float time = GetFrameTime();
     // Atualiza as animações do jogo:  tempo
     for (std::pair<std::string, Animation*> animation_pair : _animations) {
         animation_pair.second->update(time);
@@ -187,12 +183,6 @@ void Game::_update_game() {
   
     // Atualização a nave do jogador : movimento e tempo
     _ship->update(time);
-
-    // Checar colisões entre os objetos
-    _check_colisions();
-
-    // Deleta objetos mortos
-    _delete_deads();
 }
 
 void Game::_check_colisions() {
@@ -202,6 +192,7 @@ void Game::_check_colisions() {
         
         if ((*it_a)->get("position").y > SCREEN_HEIGHT) {
             (*it_a)->kill();
+            ++it_a;
             continue;
         }
         
@@ -285,28 +276,15 @@ void Game::_delete_deads() {
         }
     }
 
+    if (_aliens.empty() && _game_status) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+            _fleets.load();
+    }
 }
 
 void Game::_reset_game() {
-    // Deletar todos dos objetos
-    // Remover as balas
-    for (MotionObject* bullet : _bullets) {
-        delete bullet;
-    }
-
-    _bullets.clear();
- 
-    // Remover os aliens
-    for (Alien* alien : _aliens) {
-        delete alien;
-    }
-    _aliens.clear();
-
-    // Remover explosões
-    for (MotionObjectTemp* explosion : _explosions) {
-        delete explosion;
-    }
-    _explosions.clear();
+    // Deletar todos dos objetos: exceto a nave
+    _clear();
 
     // Diminui a vida da nave e checa game_over
     if (!(_ship->is_alive())) {
@@ -318,8 +296,8 @@ void Game::_reset_game() {
     _ship->set("position", Vector2 {SCREEN_WIDTH/2, SCREEN_HEIGHT - _ship->get("dimension").y/2.0f});
 
     // Reconstruir os aliens
-    _build_aliens();
-    // Aguarde um segundo antes de desenhar a nova frota
+    _fleets.load();
+    // Aguardar um segundo antes de desenhar a nova frota
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
 }
@@ -391,6 +369,10 @@ void Game::add_bullet(MotionObject* bullet) {
     _bullets.push_back(bullet);
 }
 
+void Game::add_alien(Alien* alien) {
+    _aliens.push_back(alien);
+}
+
 Behaviour* Game::get_behaviour(std::string key) {
     return _behaviours.at(key);
 }
@@ -401,5 +383,26 @@ Animation* Game::get_animation(std::string key) {
 
  bool Game::get_inputs(std::string key){
     return _key_inputs.at(key);
- }
+}
+
+void Game::_clear() {
+    // Limpa o estado do jogo: elimina balas, aliens e explosões
+    // Não elimina a nave
+    for (MotionObject* bullet : _bullets) {
+        delete bullet;
+    }
+
+    _bullets.clear();
  
+    // Remover os aliens
+    for (Alien* alien : _aliens) {
+        delete alien;
+    }
+    _aliens.clear();
+
+    // Remover explosões
+    for (MotionObjectTemp* explosion : _explosions) {
+        delete explosion;
+    }
+    _explosions.clear();
+} 

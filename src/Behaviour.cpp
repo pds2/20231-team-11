@@ -13,6 +13,26 @@ void Behaviour::update(MotionObject* motion_object) {
 
 }
 
+// ZIGZAGBEHAVIOUR
+
+ZigZagBehaviour::ZigZagBehaviour() {
+
+}
+
+ZigZagBehaviour::~ZigZagBehaviour() {
+
+}
+
+void ZigZagBehaviour::update(MotionObject* motion_object) {
+    Vector2 position = motion_object->get("position");
+    Vector2 velocity= motion_object->get("velocity");
+    float width = motion_object->get("dimension").x;
+    if (position.x < 50.0f || position.x > SCREEN_WIDTH - 50.0f) {
+        velocity.x *= -1;
+    }
+
+    motion_object->set("velocity", velocity);
+}
 
 // DEFAULT_SHIP_BEHAVIOUR
 
@@ -52,7 +72,7 @@ KamikazeBehaviour::KamikazeBehaviour(MotionObject* target_object) {
     // Taxa em que a aceleração é almentada JERK
     _acceleration_factor = 1.02f;
     // Velocidade em que os aliens perdem a manobrabilidade 
-    _threshold_speed = _max_speed * (0.6f);
+    _threshold_speed = _max_speed * (0.34f);
 
 }
 

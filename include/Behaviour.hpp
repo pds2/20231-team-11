@@ -29,6 +29,15 @@ public:
     virtual void update(MotionObject* motion_object);
 };
 
+class ZigZagBehaviour : public Behaviour {
+    public:
+        ZigZagBehaviour();
+        ~ZigZagBehaviour();
+
+        void update(MotionObject* motion_object) override;
+
+};
+
 
 /**
  * @brief Comportamento padrão para a nave
