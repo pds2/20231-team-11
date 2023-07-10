@@ -13,9 +13,9 @@
 
 ## 🎮 Introdução
 
-O projeto desenvolvido para a disciplina de Programação e Desenvolvimento de Software II apresenta a implementação de um jogo inspirado no clássico Space Invaders. Com o objetivo de aplicar e consolidar os conceitos e técnicas aprendidos durante o semestre letivo, o projeto abrange uma ampla gama de tópicos fundamentais no desenvolvimento de software.
+Este projeto foi desenvolvido para a disciplina de Programação e Desenvolvimento de Software II, apresentando a implementação de um jogo inspirado no clássico Space Invaders. Assim, om o objetivo de aplicar e consolidar os conceitos e técnicas aprendidos durante o semestre letivo, o trabalho abrange uma ampla gama de tópicos fundamentais no desenvolvimento de software.
 
-A principal ênfase deste projeto está na utilização de conceitos como Tipos Abstratos de Dados, Prática de Containers, Modularização, Programação Orientada à Objetos, Modelagem, Polimorfismo, Herança e Testes de Unidade. Esses conceitos serão explorados de forma integrada, permitindo uma compreensão mais profunda de como aplicar cada um deles no desenvolvimento de um software completo.
+A principal ênfase aqui encontrada está na utilização de conceitos como Tipos Abstratos de Dados, Prática de Containers, Modularização, Programação Orientada à Objetos, Modelagem, Polimorfismo, Herança e Testes de Unidade. Esses conceitos serão explorados de forma integrada, permitindo uma compreensão mais profunda de como aplicar cada um deles no desenvolvimento de um software completo.
 
 ## 🧩 Ajustes e melhorias
 
