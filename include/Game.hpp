@@ -51,6 +51,8 @@ public:
      * @brief Encerra o jogo
      */
     void shutdown();
+
+    void _show_menu();
     
     /**
      * @brief Adiciona uma bala ao estado do jogo

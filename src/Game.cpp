@@ -26,7 +26,7 @@ Game::Game() {
     _score = 0u;
 
     // Game status
-    _game_status = true;
+    _game_status = false;
 
     // Ponteiro para o jogo para as instâncias MotionObject;
     MotionObject motion_object;
@@ -125,12 +125,52 @@ void inline Game::_build_objects() {
    
 }
 
+void Game::_show_menu() {
+    int selected_option = 0;
+
+    while (!_game_status) {
+        BeginDrawing();
+
+        Texture2D menu_texture = _textures.at("menu");
+        DrawTexturePro(menu_texture, (Rectangle) {0, 0, (float) menu_texture.width, (float) menu_texture.height}, 
+        (Rectangle) {0, 0, (float) SCREEN_WIDTH, (float) SCREEN_HEIGHT}, 
+        Vector2Zero(), 0, WHITE);
+
+        // Desenhar as opções do menu
+        DrawText("Menu", SCREEN_WIDTH / 2 - MeasureText("Menu", 30) / 2, 100, 30, WHITE);
+        DrawText("Start", SCREEN_WIDTH / 2 - MeasureText("Start", 20) / 2, 200, 20, selected_option == 0 ? RED : WHITE);
+        DrawText("Exit", SCREEN_WIDTH / 2 - MeasureText("Exit", 20) / 2, 250, 20, selected_option == 1 ? RED : WHITE);
+
+        // Lógica de seleção das opções
+        if (IsKeyPressed(KEY_DOWN)) {
+            selected_option = (selected_option + 1) % 2;
+        }
+        else if (IsKeyPressed(KEY_UP)) {
+            selected_option = (selected_option - 1 + 2) % 2;
+        }
+        else if (IsKeyPressed(KEY_ENTER)) {
+            if (selected_option == 0) {
+                // Opção "Start" selecionada
+                _game_status = true;
+            }
+            else if (selected_option == 1) {
+                // Opção "Exit" selecionada
+                shutdown();
+                exit(0);
+            }
+        }
+
+        EndDrawing();
+    }
+}
+
 
 void Game::run_loop() {
     
     // Loop principal do jogo
     
-     while(!WindowShouldClose() && _game_status) {
+     while(!WindowShouldClose()) {
+        _show_menu();
         _process_input();
         _update_game();
         _draw_game();

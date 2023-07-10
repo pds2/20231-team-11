@@ -6,6 +6,9 @@
 #include "../logic/include/Animation_logic.hpp"
 
 #include "../logic/include/MotionObject_logic.hpp"
+#include "../logic/include/Alien_logic.hpp"
+#include "../logic/include/Ship_logic.hpp"
+#include "../logic/include/Behaviour_logic.hpp"
 
 #include <stdexcept>
 
@@ -93,14 +96,6 @@ TEST_CASE("02-Teste da classe Vector2") {
         CHECK(v7.get_x() == 0.0f);
         CHECK(v7.get_y() == 0.0f);
     }   
-
-    SUBCASE("2.2-Posição negativa negativo") {
-        CHECK_THROWS_AS(Vector2 v1(-50.0f, -100.0f), std::invalid_argument);
-        CHECK_THROWS_WITH(
-            Vector2 v1(-50.0f, -100.0f),
-            "A posicao nao pode ser negativa"
-        );
-    }
 }
 
 TEST_CASE("03-Teste da classe Retangulo") {
@@ -212,35 +207,34 @@ TEST_CASE("05-Teste classe AnimationFPS") {
     }
 }
 
-TEST_CASE("Teste da classe MotionObject_logic") {
-
-    // Crie um objeto MotionObject_logic com valores iniciais
+TEST_CASE("06-Teste da classe MotionObject_logic") {
+    // Parâmetros de movimento
     Vector2 position(100.0f, 100.0f);
     Vector2 velocity(1.0f, 1.0f);
-    Vector2 acceleration(0.5f, 0.5f);
+    Vector2 aceleration(0.5f, 0.5f);
     Vector2 dimension(50.0f, 50.0f);
     float speed_limit = 10.0f;
-    float acceleration_limit = 5.0f;
+    float aceleration_limit = 5.0f;
 
-    MotionObject_logic motionObject(position, velocity, acceleration, dimension, speed_limit, acceleration_limit);
+    MotionObject_logic motionObject(position, velocity, aceleration, dimension, speed_limit, aceleration_limit);
 
-    SUBCASE("Teste do construtor com parâmetros") {
+    SUBCASE("6.1-Teste do construtor com parâmetros") {
 
         // Verifique se os parâmetros foram armazenados corretamente
         CHECK(motionObject.get("position") == position);
 
         CHECK(motionObject.get("velocity")== velocity);
 
-        CHECK(motionObject.get("acceleration") == acceleration);
+        CHECK(motionObject.get("aceleration") == aceleration);
 
         CHECK(motionObject.get("dimension") == dimension);
 
         // floats
         CHECK(motionObject.get_speed_limit() == speed_limit);
-        CHECK(motionObject.get_acceleration_limit() == acceleration_limit);
+        CHECK(motionObject.get_aceleration_limit() == aceleration_limit);
     }
 
-    SUBCASE("Teste da função update") {
+    SUBCASE("6.2-Teste da função update") {
         // Chame a função update
         motionObject.update();
         // Verifique se a posição do objeto foi atualizada corretamente
@@ -257,18 +251,320 @@ TEST_CASE("Teste da classe MotionObject_logic") {
         CHECK(motionObject.get_rectangle() == Retangulo(Vector2 (76.0f, 76.0f), 50.0f, 50.0f));
     }
 
-    // SUBCASE("Teste da função add_animation") {
-    //     // Crie uma animação
-    //     Animation_logic a1, a2, a3;
+    SUBCASE("6.3-Teste da função add_animation") {
+        // Crie uma animação
+        Animation_logic* a1 = new Animation_logic();
+        Animation_logic* a2 = new Animation_logic();
+        Animation_logic* a3 = new Animation_logic();
 
-    //     // Adicione a animação ao objeto
-    //     motionObject.add_animation(&animation);
+        a1->set_width(54.25f);
+        a1->set_height(76.36f);
 
-    //     // Verifique se a animação foi adicionada corretamente
-    //     std::vector<Animation_logic*> animations = motionObject.get_animations();
-    //     CHECK(animations.size() == 1);
-    //     CHECK(animations[0] == &animation);
+        a2->set_width(54.0f);
+        a2->set_height(76.0f);
 
-    //     // TODO: Adicione mais testes relevantes para a função add_animation
-    // }
+        a3->set_width(50.0f);
+        a3->set_height(30.0f);
+        
+        // Adicione a animação ao objeto
+        motionObject.add_animation(a1);
+        motionObject.add_animation(a2);
+        motionObject.add_animation(a3);
+        
+        // Verifique se a animação foi adicionada corretamente
+        std::vector<Animation_logic*> animations = motionObject.get_animations();
+
+        // da pra verificar desse jeito:
+        CHECK(animations.size() == 3);
+
+        CHECK(animations[0] == a1); //  checando endereço
+        CHECK(animations[1] == a2); 
+        CHECK(animations[2] == a3); 
+
+        CHECK(animations[0]->get_width() == doctest::Approx(54.25f));
+        CHECK(animations[0]->get_height() == doctest::Approx(76.36f));
+
+        CHECK(animations[1]->get_width() == doctest::Approx(54.0f));
+        CHECK(animations[1]->get_height() == doctest::Approx(76.0f));
+        
+        CHECK(animations[2]->get_width() == doctest::Approx(50.0f));
+        CHECK(animations[2]->get_height() == doctest::Approx(30.0f));
+
+        delete a1; // liberar a memória alocada
+        delete a2;
+        delete a3;
+    }
+}
+
+TEST_CASE("07-Teste da classe Alien_logic"){
+    // Parâmetros de movimento
+    Vector2 position(100.0f, 100.0f);
+    Vector2 velocity(1.0f, 1.0f);
+    Vector2 aceleration(0.5f, 0.5f);
+    Vector2 alien_dimension(50.0f, 50.0f);
+
+    Alien_logic alien1(position, velocity, aceleration, alien_dimension, 1.2f, 1.3f);
+    Alien_logic alien2(position, velocity, aceleration, alien_dimension);
+
+    SUBCASE("7.1-Teste do construtor dando speed_limit e aceleration_limit"){
+        unsigned expectedScore = 10u;
+
+        CHECK_EQ(alien1.get_score(), expectedScore);
+
+        CHECK(alien1.get("position") == position);
+        CHECK(alien1.get("velocity") == velocity);
+        CHECK(alien1.get("aceleration") == aceleration);
+        CHECK(alien1.get("dimension") == alien_dimension);
+
+        CHECK(alien1.get_speed_limit() == doctest::Approx(1.2f));
+        CHECK(alien1.get_aceleration_limit() == doctest::Approx(1.3f));
+    }
+
+    SUBCASE("7.2-Teste do construtor sem dar speed_limit e aceleration_limit"){
+        CHECK(alien2.get_speed_limit() == doctest::Approx(1.0f));
+        CHECK(alien2.get_aceleration_limit() == doctest::Approx(0.5f));
+    }
+
+    SUBCASE("7.3-Teste da função set_score"){
+        alien1.set_score(25u);
+        CHECK_EQ(alien1.get_score(), 25u);
+    }
+}
+
+TEST_CASE("08-Teste da classe Ship_logic"){
+    // Parâmetros de movimento
+    Vector2 position(200.0f, 150.0f);
+    Vector2 velocity(1.5f, 1.5f);
+    Vector2 aceleration(0.7f, 0.7f);
+    Vector2 ship_dimension(42.0f, 42.0f);
+
+    Ship_logic ship1(position, velocity, aceleration, ship_dimension);
+    Ship_logic ship2(position, velocity, aceleration, ship_dimension, 1.5f, 1.2f);
+
+    SUBCASE("8.1-Teste do construtor com parâmetros dando speed_limit e aceleration_limit"){
+        CHECK(ship1.get("position") == position);
+        CHECK(ship1.get("velocity") == velocity);
+        CHECK(ship1.get("aceleration") == aceleration);
+        CHECK(ship1.get("dimension") == ship_dimension);
+
+        CHECK(ship1.get_speed_limit() == doctest::Approx(1.0f));
+        CHECK(ship1.get_aceleration_limit() == doctest::Approx(0.5f));
+
+        CHECK(ship1.get_life() == 3);
+        CHECK(ship1.get_total_charge() == doctest::Approx(0.2f));
+        CHECK(ship1.get_current_charge() == doctest::Approx(0.0f));
+    }
+
+    SUBCASE("8.2-Teste do construtor com parâmetros sem dar speed_limit e aceleration_limit"){
+        CHECK(ship2.get_speed_limit() == doctest::Approx(1.5f));
+        CHECK(ship2.get_aceleration_limit() == doctest::Approx(1.2f));
+    }
+
+    SUBCASE("8.3-Teste da função is_charged"){
+        CHECK(ship1.is_charged() == false);
+    }
+
+    SUBCASE("8.4-Teste da função kill_ship"){
+        CHECK(ship1.kill_ship() == 2);
+        CHECK(ship1.kill_ship() == 1);
+        CHECK(ship1.kill_ship() == 0);
+
+        CHECK_THROWS_AS(ship1.kill_ship(), std::invalid_argument);
+        CHECK_THROWS_WITH(
+            ship1.kill_ship(),
+            "Vida nao pode ser negativa"
+        );
+    }
+}
+
+TEST_CASE("09-Teste da classe Behaviour_logic") {
+    // Parâmetros de movimento
+    Vector2 position(100.0f, 100.0f);
+    Vector2 velocity(1.0f, 1.0f);
+    Vector2 aceleration(0.5f, 0.5f);
+    Vector2 dimension(50.0f, 50.0f);
+    Vector2 ship_dimension(40.0f, 40.0f);
+    float speed_limit = 10.0f;
+    float aceleration_limit = 5.0f;
+
+    // Mapa de entradas para DefaultShipBehaviour
+    std::map<std::string, bool> key_inputs = { {"move-right", false}, {"move-left", false}, {"fire", false}};
+
+    // Objeto cinemático: MotionObject
+    MotionObject_logic motion_object(position, velocity, aceleration, dimension, speed_limit, aceleration_limit);
+    
+    // Comportamentos
+    Behaviour_logic behaviour;
+    DefaultShipBehaviour_logic default_ship_behaviour(&key_inputs, velocity);
+
+    Ship_logic ship(position, velocity, aceleration, ship_dimension, speed_limit, aceleration_limit);
+    KamikazeBehaviour_logic kamikaze(&ship);
+
+    SUBCASE("9.1-Teste da função update de Behaviour_logic"){
+        CHECK(motion_object.get("velocity") == velocity);
+
+        behaviour.update(&motion_object);
+
+        CHECK(motion_object.get("velocity") == velocity);
+    }
+
+    SUBCASE("9.2-Teste do construtor DefaultShipBehaviour_logic"){
+        CHECK(*default_ship_behaviour.get_key_inputs() == key_inputs);
+        CHECK(default_ship_behaviour.get_velocity() == velocity);
+    }
+
+    SUBCASE("9.3-Teste de DefaultShipBehaviour_logic::update"){
+        Vector2 resultado(0.0f, 1.0f);
+
+        CHECK(motion_object.get("velocity") == velocity);
+        //std::cout << "1. velocity (x,y): " << motion_object.get("velocity").get_x() << " "<< motion_object.get("velocity").get_y() <<std::endl;
+
+        default_ship_behaviour.update(&motion_object);
+
+        //std::cout << "2. velocity (x,y): " << motion_object.get("velocity").get_x() << " "<< motion_object.get("velocity").get_y() <<std::endl;
+
+        CHECK(motion_object.get("velocity") == resultado);
+        //std::cout << "resultado (x,y): " << resultado.get_x() << " "<< resultado.get_y() <<std::endl;
+    }
+
+    SUBCASE("9.4-Teste da função update de DefaultShipBehaviour_logic::update"){
+        key_inputs = { {"move-right", false}, {"move-left", true}, {"fire", false}};
+        
+        Vector2 resultado(-1.0f, 1.0f);
+
+        default_ship_behaviour.update(&motion_object);
+
+        CHECK(motion_object.get("velocity") == resultado);
+    }
+
+    SUBCASE("9.5-Teste da função update de DefaultShipBehaviour_logic"){
+        key_inputs = { {"move-right", true}, {"move-left", true}, {"fire", false}};
+        
+        Vector2 resultado(0.0f, 1.0f);
+
+        default_ship_behaviour.update(&motion_object);
+
+        CHECK(motion_object.get("velocity") == resultado);
+    }
+
+    SUBCASE("9.6-Teste da função update de DefaultShipBehaviour_logic"){
+        key_inputs = { {"move-right", true}, {"move-left", false}, {"fire", false}};
+        
+        Vector2 resultado(1.0f, 1.0f);
+
+        default_ship_behaviour.update(&motion_object);
+
+        CHECK(motion_object.get("velocity") == resultado);
+    }
+
+
+
+    SUBCASE("9.7-Teste do construtor de KamikazeBehaviour_logic"){
+        CHECK(kamikaze.get_max_speed() == doctest::Approx(20.0f));
+        CHECK(kamikaze.get_acceleration_factor() == doctest::Approx(1.02f));
+        CHECK(kamikaze.get_threshold_speed() == doctest::Approx(20.0f * 0.34f));
+
+        //CHECK(*kamikaze.get_target_object() == ship);
+    }
+
+    SUBCASE("9.8-Teste de KamikazeBehaviour_logic::update"){
+
+    }
+
+}
+
+TEST_CASE("10-Teste da classe Game_logic"){
+    SUBCASE("10.1-Construtor"){
+
+    }
+
+    SUBCASE("10.2-Destrutor"){
+
+    }
+
+    SUBCASE("10.3-Game::initialize()"){
+
+    }
+
+    SUBCASE("10.4-Game::_load_graphics()"){
+
+    }
+
+    SUBCASE("10.5-Game::_load_animations()"){
+
+    }
+
+    SUBCASE("10.6-Game::_load_behaviours()"){
+
+    }
+
+    SUBCASE("10.7-Game::_build_objects()"){
+
+    }
+
+    SUBCASE("10.8-Game::_build_aliens()"){
+
+    }
+
+    SUBCASE("10.9-Game::_show_menu()"){
+
+    }
+
+    SUBCASE("10.10-Game::run_loop()"){
+
+    }
+    
+    SUBCASE("10.12-Game::_process_input()"){
+
+    }
+
+    SUBCASE("10.13-Game::_update_game()"){
+
+    }
+
+    SUBCASE("10.14-Game::_check_colisions()"){
+
+    }
+
+    SUBCASE("10.15-Game::_reset_game()"){
+
+    }
+
+    SUBCASE("10.16-Game::_game_over()"){
+
+    }
+
+    SUBCASE("10.17-Game::_draw_game()"){
+
+    }
+
+    SUBCASE("10.18-Game::_shutdown()"){
+
+    }
+
+    SUBCASE("10.19-Game::_unload_graphics()"){
+
+    }
+
+    SUBCASE("10.20-Game::add_bullet(MotionObject* bullet)"){
+
+    }
+}
+
+TEST_CASE("11-Teste da classe Frota_logic"){
+    SUBCASE("11.1-"){
+
+    }
+
+    SUBCASE("11.2-"){
+
+    }
+
+    SUBCASE("11.3-"){
+
+    }
+
+    SUBCASE("11.4-"){
+
+    }
 }

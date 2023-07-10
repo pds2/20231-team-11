@@ -9,11 +9,6 @@ Vector2::Vector2() {
 }
 
 Vector2::Vector2(float x, float y){
-
-    if (x < 0 || y < 0) {
-        throw std::invalid_argument("A posicao nao pode ser negativa");
-    }
-
     _x = x;
     _y = y;
 }
@@ -26,11 +21,11 @@ float Vector2::get_y() const{
     return _y;
 }
 
-void Vector2::set_x(int x){
+void Vector2::set_x(float x){
     _x = x;
 }
 
-void Vector2::set_y(int y){
+void Vector2::set_y(float y){
     _y = y;
 }
 
