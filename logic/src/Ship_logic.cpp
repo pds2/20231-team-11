@@ -2,9 +2,7 @@
 //#include "Game_logic.hpp"
 
 Ship_logic::Ship_logic() : MotionObject_logic() {
-    _total_charge = 0.2f;
-    _current_charge = 0.0f;
-    _life = 3;
+
 }
 
 Ship_logic::~Ship_logic() {
@@ -12,8 +10,9 @@ Ship_logic::~Ship_logic() {
 }
 
 
-Ship_logic::Ship_logic(Vector2 position, Vector2 velocity, Vector2 acceleration, Vector2 ship_dimension)
-    : MotionObject_logic(position, velocity, acceleration, ship_dimension) {
+Ship_logic::Ship_logic(Vector2 position, Vector2 velocity, Vector2 acceleration, 
+Vector2 ship_dimension, float speed_limit, float aceleration_limit)
+    : MotionObject_logic(position, velocity, acceleration, ship_dimension, speed_limit, aceleration_limit) {
     _total_charge = 0.2f;
     _current_charge = 0.0f;
     _life = 3;
@@ -46,6 +45,7 @@ bool Ship_logic::is_charged() {
 }
 
 
+// Não dá pra fazer ainda update pq precisa do game !!!!!
 // Tem que só alterar o jeito que Vector2 e Vector2Subtract são usados pra nova declaração do Structs_logic.hpp
 
 /*void Ship_logic::fire_bullet() {
@@ -65,12 +65,24 @@ bool Ship_logic::is_charged() {
 
 // Nave mata a si mesma:  estranho?? kill_ship deve ser um método um método do jogo?
 int Ship_logic::kill_ship() {
-    --_life;
-    //std::cout << TERMINAL_BOLDRED << "VIDA: " << _life <<TERMINAL_RESET << std::endl;
+
+    if (--_life < 0) {
+        throw std::invalid_argument("Vida nao pode ser negativa");
+    }
+
+    //std::cout << "VIDA: " << _life << std::endl;
     return _life;
 }
 
 // Getters life
 int Ship_logic::get_life() {
     return _life;
+}
+
+float Ship_logic::get_total_charge(){
+    return _total_charge;
+}
+
+float Ship_logic::get_current_charge(){
+    return _current_charge;
 }

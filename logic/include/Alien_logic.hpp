@@ -19,7 +19,8 @@ public:
      * @param acceleration Aceleração inicial do alienígena
      * @param alien_dimension Dimensão do alienígena
      */
-    Alien_logic(Vector2 position, Vector2 velocity, Vector2 acceleration, Vector2 alien_dimension);
+    Alien_logic(Vector2 position, Vector2 velocity, Vector2 acceleration, 
+    Vector2 alien_dimension, float speed_limit=1.0f, float acceleration_limit=0.5f);
 
     /**
      * @brief Destrutor do alienígena

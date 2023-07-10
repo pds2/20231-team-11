@@ -18,7 +18,8 @@ public:
      * @param acceleration Aceleração inicial da nave
      * @param ship_dimension Dimensões da nave
      */
-    Ship_logic(Vector2 position, Vector2 velocity, Vector2 acceleration, Vector2 ship_dimension);
+    Ship_logic(Vector2 position, Vector2 velocity, Vector2 acceleration, 
+    Vector2 ship_dimension, float speed_limit=1.0f, float acceleration_limit=0.5f);
     
     /**
      * @brief Destrutor da nave
@@ -53,6 +54,9 @@ public:
      * @return Vida atual da nave
      */
     int get_life();
+
+    float get_total_charge();
+    float get_current_charge(); 
 
 private:
     /**

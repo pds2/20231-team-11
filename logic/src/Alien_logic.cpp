@@ -10,8 +10,9 @@ Alien_logic::~Alien_logic() {
 }
 
 
-Alien_logic::Alien_logic(Vector2 position, Vector2 velocity, Vector2 acceleration, Vector2 alien_dimension) 
-    : MotionObject_logic(position, velocity, acceleration, alien_dimension) {
+Alien_logic::Alien_logic(Vector2 position, Vector2 velocity, Vector2 acceleration, 
+Vector2 alien_dimension, float speed_limit, float aceleration_limit) 
+    : MotionObject_logic(position, velocity, acceleration, alien_dimension, speed_limit, aceleration_limit) {
         // Alien padrão tem score igual a 10
         _score = 10u;
 }

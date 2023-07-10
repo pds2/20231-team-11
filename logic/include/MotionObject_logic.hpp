@@ -19,7 +19,7 @@ class MotionObject_logic {
     public:
         MotionObject_logic();
 
-        MotionObject_logic(Vector2 position, Vector2 velocity, Vector2 acceleration, Vector2 dimension, float speed_limit = 1.0f, float acceleration_limit = 0.5f);
+        MotionObject_logic(Vector2 position, Vector2 velocity, Vector2 aceleration, Vector2 dimension, float speed_limit = 1.0f, float aceleration_limit = 0.5f);
 
         ~MotionObject_logic();
 
@@ -39,7 +39,7 @@ class MotionObject_logic {
 
         float get_speed_limit();
 
-        float get_acceleration_limit();
+        float get_aceleration_limit();
 
         std::vector<Animation_logic*> get_animations();
 
@@ -59,7 +59,7 @@ class MotionObject_logic {
 
         float _speed_limit;
 
-        float _acceleration_limit;
+        float _aceleration_limit;
 };
 
 #endif

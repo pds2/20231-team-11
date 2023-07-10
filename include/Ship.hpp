@@ -17,7 +17,8 @@ public:
      * @param acceleration Aceleração inicial da nave
      * @param ship_dimension Dimensões da nave
      */
-    Ship(Vector2 position, Vector2 velocity, Vector2 acceleration, Vector2 ship_dimension);
+    Ship(Vector2 position, Vector2 velocity, Vector2 acceleration, Vector2 ship_dimension, 
+    float speed_limit=1.0f, float acceleration_limit=0.5f);
     
     /**
      * @brief Destrutor da nave

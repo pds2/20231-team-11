@@ -10,8 +10,9 @@ Ship::~Ship() {
 }
 
 
-Ship::Ship(Vector2 position, Vector2 velocity, Vector2 acceleration, Vector2 ship_dimension) 
-    : MotionObject(position, velocity, acceleration, ship_dimension) {
+Ship::Ship(Vector2 position, Vector2 velocity, Vector2 acceleration, 
+Vector2 ship_dimension, float speed_limit, float acceleration_limit) 
+    : MotionObject(position, velocity, acceleration, ship_dimension, speed_limit, acceleration_limit) {
         _total_charge = 0.2f; 
         _current_charge = 0.0f;
         _life = 3;

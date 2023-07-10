@@ -36,8 +36,8 @@ class Vector2 {
 
         bool operator==(const Vector2& other) const;
 
-        void set_x(int x);
-        void set_y(int y);
+        void set_x(float x);
+        void set_y(float y);
 };
 
 class Retangulo {

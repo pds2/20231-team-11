@@ -33,9 +33,9 @@ void DefaultShipBehaviour::update(MotionObject* motion_object) {
     velocity.x = move_right * _velocity.x - move_left * _velocity.x;
     velocity.y = _velocity.y;
 
-    if (Vector2Length(velocity) > motion_object->get_speed_limit()) {
+    /*if (Vector2Length(velocity) > motion_object->get_speed_limit()) {
         velocity = Vector2Scale(velocity, motion_object->get_speed_limit());
-    }
+    }*/
     
     motion_object->set("velocity", velocity);
 
@@ -52,7 +52,7 @@ KamikazeBehaviour::KamikazeBehaviour(MotionObject* target_object) {
     // Taxa em que a aceleração é almentada JERK
     _acceleration_factor = 1.02f;
     // Velocidade em que os aliens perdem a manobrabilidade 
-    _threshold_speed = _max_speed * (0.6f);
+    _threshold_speed = _max_speed * (0.34f);
 
 }
 
