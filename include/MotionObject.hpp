@@ -1,4 +1,4 @@
-  #ifndef MOTION_OBJECT_HPP
+#ifndef MOTION_OBJECT_HPP
 #define MOTION_OBJECT_HPP
 
 #include <raylib-cpp.hpp>

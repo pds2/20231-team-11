@@ -1,5 +1,7 @@
 #include "Game.hpp"
 
+#include <cstring>
+
 Game::Game() {
     // Inputs
     _key_inputs = { {"move-right", false}, {"move-left", false}, {"fire", false}};
@@ -169,6 +171,7 @@ void Game::_show_menu() {
             else if (selected_option == 1) {
                 // Opção "Exit" selecionada
                 _shutdown();
+                exit(0);
             }
         }
 
