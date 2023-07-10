@@ -10,6 +10,7 @@
 #include "../logic/include/Ship_logic.hpp"
 #include "../logic/include/Behaviour_logic.hpp"
 
+// acceleration
 #include <stdexcept>
 
 TEST_CASE("01-Teste de Settings_logic") {
@@ -211,12 +212,12 @@ TEST_CASE("06-Teste da classe MotionObject_logic") {
     // Parâmetros de movimento
     Vector2 position(100.0f, 100.0f);
     Vector2 velocity(1.0f, 1.0f);
-    Vector2 aceleration(0.5f, 0.5f);
+    Vector2 acceleration(0.5f, 0.5f);
     Vector2 dimension(50.0f, 50.0f);
     float speed_limit = 10.0f;
-    float aceleration_limit = 5.0f;
+    float acceleration_limit = 5.0f;
 
-    MotionObject_logic motionObject(position, velocity, aceleration, dimension, speed_limit, aceleration_limit);
+    MotionObject_logic motionObject(position, velocity, acceleration, dimension, speed_limit, acceleration_limit);
 
     SUBCASE("6.1-Teste do construtor com parâmetros") {
 
@@ -225,13 +226,13 @@ TEST_CASE("06-Teste da classe MotionObject_logic") {
 
         CHECK(motionObject.get("velocity")== velocity);
 
-        CHECK(motionObject.get("aceleration") == aceleration);
+        CHECK(motionObject.get("acceleration") == acceleration);
 
         CHECK(motionObject.get("dimension") == dimension);
 
         // floats
         CHECK(motionObject.get_speed_limit() == speed_limit);
-        CHECK(motionObject.get_aceleration_limit() == aceleration_limit);
+        CHECK(motionObject.get_acceleration_limit() == acceleration_limit);
     }
 
     SUBCASE("6.2-Teste da função update") {
@@ -300,29 +301,29 @@ TEST_CASE("07-Teste da classe Alien_logic"){
     // Parâmetros de movimento
     Vector2 position(100.0f, 100.0f);
     Vector2 velocity(1.0f, 1.0f);
-    Vector2 aceleration(0.5f, 0.5f);
+    Vector2 acceleration(0.5f, 0.5f);
     Vector2 alien_dimension(50.0f, 50.0f);
 
-    Alien_logic alien1(position, velocity, aceleration, alien_dimension, 1.2f, 1.3f);
-    Alien_logic alien2(position, velocity, aceleration, alien_dimension);
+    Alien_logic alien1(position, velocity, acceleration, alien_dimension, 1.2f, 1.3f);
+    Alien_logic alien2(position, velocity, acceleration, alien_dimension);
 
-    SUBCASE("7.1-Teste do construtor dando speed_limit e aceleration_limit"){
+    SUBCASE("7.1-Teste do construtor dando speed_limit e acceleration_limit"){
         unsigned expectedScore = 10u;
 
         CHECK_EQ(alien1.get_score(), expectedScore);
 
         CHECK(alien1.get("position") == position);
         CHECK(alien1.get("velocity") == velocity);
-        CHECK(alien1.get("aceleration") == aceleration);
+        CHECK(alien1.get("acceleration") == acceleration);
         CHECK(alien1.get("dimension") == alien_dimension);
 
         CHECK(alien1.get_speed_limit() == doctest::Approx(1.2f));
-        CHECK(alien1.get_aceleration_limit() == doctest::Approx(1.3f));
+        CHECK(alien1.get_acceleration_limit() == doctest::Approx(1.3f));
     }
 
-    SUBCASE("7.2-Teste do construtor sem dar speed_limit e aceleration_limit"){
+    SUBCASE("7.2-Teste do construtor sem dar speed_limit e acceleration_limit"){
         CHECK(alien2.get_speed_limit() == doctest::Approx(1.0f));
-        CHECK(alien2.get_aceleration_limit() == doctest::Approx(0.5f));
+        CHECK(alien2.get_acceleration_limit() == doctest::Approx(0.5f));
     }
 
     SUBCASE("7.3-Teste da função set_score"){
@@ -335,29 +336,29 @@ TEST_CASE("08-Teste da classe Ship_logic"){
     // Parâmetros de movimento
     Vector2 position(200.0f, 150.0f);
     Vector2 velocity(1.5f, 1.5f);
-    Vector2 aceleration(0.7f, 0.7f);
+    Vector2 acceleration(0.7f, 0.7f);
     Vector2 ship_dimension(42.0f, 42.0f);
 
-    Ship_logic ship1(position, velocity, aceleration, ship_dimension);
-    Ship_logic ship2(position, velocity, aceleration, ship_dimension, 1.5f, 1.2f);
+    Ship_logic ship1(position, velocity, acceleration, ship_dimension);
+    Ship_logic ship2(position, velocity, acceleration, ship_dimension, 1.5f, 1.2f);
 
-    SUBCASE("8.1-Teste do construtor com parâmetros dando speed_limit e aceleration_limit"){
+    SUBCASE("8.1-Teste do construtor com parâmetros dando speed_limit e acceleration_limit"){
         CHECK(ship1.get("position") == position);
         CHECK(ship1.get("velocity") == velocity);
-        CHECK(ship1.get("aceleration") == aceleration);
+        CHECK(ship1.get("acceleration") == acceleration);
         CHECK(ship1.get("dimension") == ship_dimension);
 
         CHECK(ship1.get_speed_limit() == doctest::Approx(1.0f));
-        CHECK(ship1.get_aceleration_limit() == doctest::Approx(0.5f));
+        CHECK(ship1.get_acceleration_limit() == doctest::Approx(0.5f));
 
         CHECK(ship1.get_life() == 3);
         CHECK(ship1.get_total_charge() == doctest::Approx(0.2f));
         CHECK(ship1.get_current_charge() == doctest::Approx(0.0f));
     }
 
-    SUBCASE("8.2-Teste do construtor com parâmetros sem dar speed_limit e aceleration_limit"){
+    SUBCASE("8.2-Teste do construtor com parâmetros sem dar speed_limit e acceleration_limit"){
         CHECK(ship2.get_speed_limit() == doctest::Approx(1.5f));
-        CHECK(ship2.get_aceleration_limit() == doctest::Approx(1.2f));
+        CHECK(ship2.get_acceleration_limit() == doctest::Approx(1.2f));
     }
 
     SUBCASE("8.3-Teste da função is_charged"){
@@ -381,23 +382,23 @@ TEST_CASE("09-Teste da classe Behaviour_logic") {
     // Parâmetros de movimento
     Vector2 position(100.0f, 100.0f);
     Vector2 velocity(1.0f, 1.0f);
-    Vector2 aceleration(0.5f, 0.5f);
+    Vector2 acceleration(0.5f, 0.5f);
     Vector2 dimension(50.0f, 50.0f);
     Vector2 ship_dimension(40.0f, 40.0f);
     float speed_limit = 10.0f;
-    float aceleration_limit = 5.0f;
+    float acceleration_limit = 5.0f;
 
     // Mapa de entradas para DefaultShipBehaviour
     std::map<std::string, bool> key_inputs = { {"move-right", false}, {"move-left", false}, {"fire", false}};
 
     // Objeto cinemático: MotionObject
-    MotionObject_logic motion_object(position, velocity, aceleration, dimension, speed_limit, aceleration_limit);
+    MotionObject_logic motion_object(position, velocity, acceleration, dimension, speed_limit, acceleration_limit);
     
     // Comportamentos
     Behaviour_logic behaviour;
     DefaultShipBehaviour_logic default_ship_behaviour(&key_inputs, velocity);
 
-    Ship_logic ship(position, velocity, aceleration, ship_dimension, speed_limit, aceleration_limit);
+    Ship_logic ship(position, velocity, acceleration, ship_dimension, speed_limit, acceleration_limit);
     KamikazeBehaviour_logic kamikaze(&ship);
 
     SUBCASE("9.1-Teste da função update de Behaviour_logic"){
@@ -456,20 +457,41 @@ TEST_CASE("09-Teste da classe Behaviour_logic") {
 
         CHECK(motion_object.get("velocity") == resultado);
     }
+}
+
+TEST_CASE("09-Teste da classe Behaviour_logic") {
+    Vector2 dimension = {90.0f, 90.0f};
+    Ship_logic* ship = new Ship_logic(Vector2 {600.0f, 900.0f - dimension.get_y()/2.0f},  Vector2 {10.0f, 0.0f}, Vector2 {0.0f, 0.0f}, dimension);
+    Alien_logic* alien = new Alien_logic(Vector2 {50.0f, 30.0f}, Vector2 {0.0f, 0.0f}, Vector2 {0.01f, 0.0f}, Vector2 {80.0f, 80.0f});
+
+    // Comportamento kamikaze com target: _ship
+    Behaviour_logic* kamikaze_behaviour = new KamikazeBehaviour_logic(ship);    
+    
+    // SUBCASE("9.7-Teste do construtor de KamikazeBehaviour_logic"){
+    //     CHECK(kamikaze.get_max_speed() == doctest::Approx(20.0f));
+    //     CHECK(kamikaze.get_acceleration_factor() == doctest::Approx(1.02f));
+    //     CHECK(kamikaze.get_threshold_speed() == doctest::Approx(20.0f * 0.34f));
 
 
-
-    SUBCASE("9.7-Teste do construtor de KamikazeBehaviour_logic"){
-        CHECK(kamikaze.get_max_speed() == doctest::Approx(20.0f));
-        CHECK(kamikaze.get_acceleration_factor() == doctest::Approx(1.02f));
-        CHECK(kamikaze.get_threshold_speed() == doctest::Approx(20.0f * 0.34f));
-
-        //CHECK(*kamikaze.get_target_object() == ship);
-    }
+    //     //CHECK(*kamikaze.get_target_object() == ship);
+    // }
 
     SUBCASE("9.8-Teste de KamikazeBehaviour_logic::update"){
+        // {600, 900} - {50, 30} = {550, 870}
+        // normalizando {550, 870} obtemos {0.53435848, 0.84525796}
+        // norma da aceleracao de alien: {0.01}
+        // escalando {0.53435848, 0.84525796}  a um fator 0.01 obtemos {0.0053435848, 0.0084525796}
+        // velocity_length = 58.3 
+        kamikaze_behaviour->update(alien);
+        std::cout <<  alien->get("velocity").get_x() << " " << alien->get("velocity").get_y() << std::endl;
 
+        CHECK(alien->get("velocity").get_x() == doctest::Approx(0.005547));
+        CHECK(alien->get("velocity").get_y() == doctest::Approx(0.0083205));
     }
+
+    delete ship;
+    delete alien;
+    delete kamikaze_behaviour;
 
 }
 

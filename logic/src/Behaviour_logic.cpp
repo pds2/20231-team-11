@@ -71,7 +71,7 @@ void KamikazeBehaviour_logic::update(MotionObject_logic* motion_object) {
     Vector2 velocity= motion_object->get("velocity");
     Vector2 acceleration = motion_object->get("acceleration");
     Vector2 direction = _target_object->get("position").subtract(position);
-    
+
     //acceleration = Vector2Scale(Vector2Normalize(direction), Vector2Length(acceleration));
     acceleration = direction.normalize().scale(acceleration.length());
     

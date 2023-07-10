@@ -8,11 +8,11 @@ MotionObject_logic::MotionObject_logic() {
 };
 
 MotionObject_logic::MotionObject_logic(Vector2 position, Vector2 velocity, 
-                           Vector2 aceleration, Vector2 dimension, 
-                           float speed_limit, float aceleration_limit) {
+                           Vector2 acceleration, Vector2 dimension, 
+                           float speed_limit, float acceleration_limit) {
 
      _parameters = {{"position", position}, {"velocity", velocity}, 
-                    {"aceleration", aceleration}, {"dimension", dimension}};
+                    {"acceleration", acceleration}, {"dimension", dimension}};
 
     // Comportamentos do objeto
     //_behaviours = std::vector<Behaviour_logic*>();
@@ -25,7 +25,7 @@ MotionObject_logic::MotionObject_logic(Vector2 position, Vector2 velocity,
     _rectangle = Retangulo(center, dimension.get_x(), dimension.get_y());
     // Limites de velocidade e aceleração
     _speed_limit = speed_limit;
-    _aceleration_limit = aceleration_limit;
+    _acceleration_limit = acceleration_limit;
 
 };
 
@@ -95,8 +95,8 @@ float MotionObject_logic::get_speed_limit() {
     return _speed_limit;
 }
 
-float MotionObject_logic::get_aceleration_limit() {
-    return _aceleration_limit;
+float MotionObject_logic::get_acceleration_limit() {
+    return _acceleration_limit;
 }
 
 std::vector<Animation_logic*> MotionObject_logic::get_animations() {
