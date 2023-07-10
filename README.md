@@ -15,13 +15,11 @@
 
 O projeto ainda está em desenvolvimento e as próximas atualizações serão voltadas nas seguintes tarefas:
 
-- [ ] Diagrama de objetos do jogo
-- [ ] Testes de unidade
-- [ ] Implementação do objeto bullet
-- [ ] Funções de colisão e destruição de objetos
-- [ ] Refatorar as classes de comportamento
-- [ ] Adicionar opção de jogo em FULL SCREEN
-- [ ] Implementar classe Fleet para refatorar Game::_build_objects()
+- [x] Testes de unidade
+- [x] Implementação do objeto bullet
+- [x] Funções de colisão e destruição de objetos
+- [x] Refatorar as classes de comportamento
+- [x] Implementar classe Fleet para refatorar Game::_build_objects()
 
 ## 💻 Pré-requisitos
 
