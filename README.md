@@ -48,6 +48,12 @@ Windows:
 ```
     mingw32-make
 ```
+## 🎯 Testes
+
+Para gerar o executável de teste, utilize o seguinte comando:
+```
+    g++ -std=c++11 ./logic/src/*.cpp ./logic/program/*.cpp -Iinclude -Ithirdy_party -o teste
+```
 
 ## 📖 User Stories
 
