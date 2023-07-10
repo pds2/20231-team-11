@@ -17,6 +17,10 @@ Este projeto foi desenvolvido para a disciplina de Programação e Desenvolvimen
 
 A principal ênfase aqui encontrada está na utilização de conceitos como Tipos Abstratos de Dados, Prática de Containers, Modularização, Programação Orientada à Objetos, Modelagem, Polimorfismo, Herança e Testes de Unidade. Esses conceitos serão explorados de forma integrada, permitindo uma compreensão mais profunda de como aplicar cada um deles no desenvolvimento de um software completo.
 
+Para aprimorar a compreensão e a testabilidade do código, adotou-se uma estratégia de separação entre a lógica do jogo e as funcionalidades de desenho fornecidas pela biblioteca raylib. Dessa forma, a pasta "program" foi dedicada a conter o código responsável por elucidar a lógica por trás dessas funcionalidades.
+Devido à forte dependência do contexto gráfico e das interações com a janela do jogo nas funcionalidades de desenho da biblioteca raylib, a criação de testes unitários convencionais torna-se desafiadora. Além disso, essas partes específicas do código geralmente envolvem a exibição visual na tela, o que inviabiliza a aplicação direta de testes unitários.
+Assim, para assegurar a testabilidade e a clareza dos testes, optou-se por exemplificar explicitamente a lógica das funcionalidades mais relevantes do jogo, sem recorrer diretamente às funções de desenho da biblioteca raylib.
+
 ## 🧩 Ajustes e melhorias
 
 Durante o desenvolvimento do projeto, foram realizadas atualizações específicas nas seguintes tarefas:
