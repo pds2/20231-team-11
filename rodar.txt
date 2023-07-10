@@ -1,3 +1,0 @@
-Rodar testes:
-
-g++ -std=c++11 ./logic/src/*.cpp ./logic/program/*.cpp -Iinclude -Ithirdy_party -o teste

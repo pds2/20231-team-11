@@ -98,3 +98,7 @@ float MotionObject_logic::get_speed_limit() {
 float MotionObject_logic::get_acceleration_limit() {
     return _acceleration_limit;
 }
+
+std::vector<Animation_logic*> MotionObject_logic::get_animations() {
+    return _animations;
+}

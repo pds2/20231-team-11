@@ -6,6 +6,7 @@
 #include "../logic/include/Animation_logic.hpp"
 
 #include "../logic/include/MotionObject_logic.hpp"
+#include "../logic/include/Alien_logic.hpp"
 
 #include <stdexcept>
 
@@ -212,7 +213,7 @@ TEST_CASE("05-Teste classe AnimationFPS") {
     }
 }
 
-TEST_CASE("Teste da classe MotionObject_logic") {
+TEST_CASE("06-Teste da classe MotionObject_logic") {
 
     // Crie um objeto MotionObject_logic com valores iniciais
     Vector2 position(100.0f, 100.0f);
@@ -224,7 +225,7 @@ TEST_CASE("Teste da classe MotionObject_logic") {
 
     MotionObject_logic motionObject(position, velocity, acceleration, dimension, speed_limit, acceleration_limit);
 
-    SUBCASE("Teste do construtor com parâmetros") {
+    SUBCASE("6.1-Teste do construtor com parâmetros") {
 
         // Verifique se os parâmetros foram armazenados corretamente
         CHECK(motionObject.get("position") == position);
@@ -240,7 +241,7 @@ TEST_CASE("Teste da classe MotionObject_logic") {
         CHECK(motionObject.get_acceleration_limit() == acceleration_limit);
     }
 
-    SUBCASE("Teste da função update") {
+    SUBCASE("6.2-Teste da função update") {
         // Chame a função update
         motionObject.update();
         // Verifique se a posição do objeto foi atualizada corretamente
@@ -257,18 +258,57 @@ TEST_CASE("Teste da classe MotionObject_logic") {
         CHECK(motionObject.get_rectangle() == Retangulo(Vector2 (76.0f, 76.0f), 50.0f, 50.0f));
     }
 
-    // SUBCASE("Teste da função add_animation") {
-    //     // Crie uma animação
-    //     Animation_logic a1, a2, a3;
+    SUBCASE("6.3-Teste da função add_animation") {
+        // Crie uma animação
+        Animation_logic* a1 = new Animation_logic();
+        a1->set_width(54.25f);
+        a1->set_height(76.36f);
+        
+        // Adicione a animação ao objeto
+        motionObject.add_animation(a1);
+        
+        // Verifique se a animação foi adicionada corretamente
+        std::vector<Animation_logic*> animations = motionObject.get_animations();
 
-    //     // Adicione a animação ao objeto
-    //     motionObject.add_animation(&animation);
+        // da pra verificar desse jeito:
+        CHECK(animations.size() == 1);
+        CHECK(animations[0] == a1);
+        CHECK(animations[0]->get_width() == doctest::Approx(54.25f));
+        CHECK(animations[0]->get_height() == doctest::Approx(76.36f));
 
-    //     // Verifique se a animação foi adicionada corretamente
-    //     std::vector<Animation_logic*> animations = motionObject.get_animations();
-    //     CHECK(animations.size() == 1);
-    //     CHECK(animations[0] == &animation);
+        // ou desse:
+        CHECK_EQ(animations.size(), 1);
+        CHECK_EQ(animations[0], a1);
 
-    //     // TODO: Adicione mais testes relevantes para a função add_animation
-    // }
+        delete a1; // liberar a memória alocada
+    }
+}
+
+TEST_CASE("07-Teste da classe Alien_logic"){
+    // Crie um objeto Alien_logic com valores iniciais
+    Vector2 position(100.0f, 100.0f);
+    Vector2 velocity(1.0f, 1.0f);
+    Vector2 acceleration(0.5f, 0.5f);
+    Vector2 alien_dimension(50.0f, 50.0f);
+
+    Alien_logic alien(position, velocity, acceleration, alien_dimension);
+
+    SUBCASE("7.1-Teste do construtor"){
+        unsigned expectedScore = 10u;
+
+        CHECK_EQ(alien.get_score(), expectedScore);
+
+        CHECK(alien.get("position") == position);
+        CHECK(alien.get("velocity") == velocity);
+        CHECK(alien.get("acceleration") == acceleration);
+        CHECK(alien.get("dimension") == alien_dimension);
+
+        CHECK(alien.get_speed_limit() == doctest::Approx(1.0f));
+        CHECK(alien.get_acceleration_limit() == doctest::Approx(0.5f));
+    }
+
+    SUBCASE("7.2-Teste da função set_score"){
+        alien.set_score(25u);
+        CHECK_EQ(alien.get_score(), 25u);
+    }
 }

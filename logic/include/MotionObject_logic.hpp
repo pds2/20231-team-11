@@ -41,6 +41,8 @@ class MotionObject_logic {
 
         float get_acceleration_limit();
 
+        std::vector<Animation_logic*> get_animations();
+
         //void set_game(Game_logic* game);
 
     protected:
