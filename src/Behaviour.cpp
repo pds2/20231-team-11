@@ -34,6 +34,7 @@ void ZigZagBehaviour::update(MotionObject* motion_object) {
     motion_object->set("velocity", velocity);
 }
 
+
 // DEFAULT_SHIP_BEHAVIOUR
 
 DefaultShipBehaviour::DefaultShipBehaviour(std::map<std::string, bool>* key_inputs, Vector2 velocity)

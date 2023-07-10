@@ -1,0 +1,15 @@
+.
+├── doctest.h
+├── include
+│   ├── Animation_logic.hpp
+│   ├── Settings_logic.hpp
+│   └── Structs_logic.hpp
+├── program
+│   ├── main.cpp
+│   └── tester.cpp
+├── src
+│   └── Animation_logic.cpp
+└── tests
+    └── testes.cpp
+
+5 directories, 8 files

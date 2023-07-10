@@ -65,7 +65,14 @@
         "compare": "cpp",
         "concepts": "cpp",
         "algorithm": "cpp",
-        "deque": "cpp"
+        "deque": "cpp",
+        "csignal": "cpp",
+        "fstream": "cpp",
+        "iomanip": "cpp",
+        "set": "cpp",
+        "stack": "cpp",
+        "thread": "cpp",
+        "unordered_set": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
