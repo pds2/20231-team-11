@@ -13,7 +13,7 @@
 
 ### Ajustes e melhorias
 
-Ao longo do desenvolvimento do projeto, diversas atualizações foram direcionadas para as seguintes tarefas:
+Durante o desenvolvimento do projeto, foram realizadas atualizações específicas nas seguintes tarefas:
 
 - [x] Testes de unidade
 - [x] Implementação do objeto bullet
