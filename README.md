@@ -13,7 +13,7 @@
 
 ### Ajustes e melhorias
 
-O projeto ainda está em desenvolvimento e as próximas atualizações serão voltadas nas seguintes tarefas:
+Ao longo do desenvolvimento do projeto, diversas atualizações foram direcionadas para as seguintes tarefas:
 
 - [x] Testes de unidade
 - [x] Implementação do objeto bullet
