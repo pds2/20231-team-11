@@ -1,8 +1,5 @@
 #include "../logic/include/MotionObject_logic.hpp"
 
-// Inicializando ponteiro para jogo como nulo
-//Game_logic* MotionObject_logic::_game = nullptr;
-
 MotionObject_logic::MotionObject_logic() {
  
 };
@@ -13,9 +10,6 @@ MotionObject_logic::MotionObject_logic(Vector2 position, Vector2 velocity,
 
      _parameters = {{"position", position}, {"velocity", velocity}, 
                     {"acceleration", acceleration}, {"dimension", dimension}};
-
-    // Comportamentos do objeto
-    //_behaviours = std::vector<Behaviour_logic*>();
 
     // Animações do objeto
     _animations = std::vector<Animation_logic*>();
@@ -36,13 +30,7 @@ MotionObject_logic::~MotionObject_logic() {
 void MotionObject_logic::update() {
     // Modifica a posição do objeto
 
-    // Modifica aceleração e velocidade do objeto
-    // for (auto it = _behaviours.begin(); it != _behaviours.end(); it++) {
-    //    (*it)->update(this);
-    // }
-
     float width = _parameters.at("dimension").get_x();
-    // Vector2 new_position = Vector2Add(_parameters.at("position"), _parameters.at("velocity"));
     Vector2 new_position = _parameters.at("position").add(_parameters.at("velocity"));
     
     if (new_position.get_x() > width/2.2f && new_position.get_x() < 1200.0f - width/2.2f)
@@ -59,16 +47,6 @@ void MotionObject_logic::_update_rectangle() {
     _rectangle = Retangulo(center, dimension.get_x(), dimension.get_y());
 }
 
-// void MotionObject_logic::draw() {
-//      for (auto it = _animations.begin(); it != _animations.end(); it++) {
-//         (*it)->draw(this);
-//     }
-// };
-
-// void MotionObject_logic::add_behaviour(Behaviour_logic* behaviour) {
-//     _behaviours.push_back(behaviour);
-// }
-
 void MotionObject_logic::add_animation(Animation_logic* animation) {
     _animations.push_back(animation);
 }
@@ -78,10 +56,6 @@ void MotionObject_logic::add_animation(Animation_logic* animation) {
 void MotionObject_logic::set(std::string key, Vector2 value) {
     _parameters.at(key) = value;
 }
-
-// void MotionObject_logic::set_game(Game_logic* game) {
-//     _game = game;
-// }
 
 Vector2 MotionObject_logic::get(std::string key) {
     return _parameters.at(key);

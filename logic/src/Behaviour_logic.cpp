@@ -64,7 +64,6 @@ KamikazeBehaviour_logic::~KamikazeBehaviour_logic() {
 
 }
 
-
 void KamikazeBehaviour_logic::update(MotionObject_logic* motion_object) {
     
     Vector2 position = motion_object->get("position");
@@ -72,14 +71,12 @@ void KamikazeBehaviour_logic::update(MotionObject_logic* motion_object) {
     Vector2 acceleration = motion_object->get("acceleration");
     Vector2 direction = _target_object->get("position").subtract(position);
 
-    //acceleration = Vector2Scale(Vector2Normalize(direction), Vector2Length(acceleration));
     acceleration = direction.normalize().scale(acceleration.length());
     
     float velocity_length = velocity.length();
 
    
     if (velocity_length < _threshold_speed) {
-        //velocity =  Vector2Scale(Vector2Normalize(direction), velocity_length);
         velocity =  direction.normalize().scale(velocity_length);
     }
 
@@ -87,7 +84,6 @@ void KamikazeBehaviour_logic::update(MotionObject_logic* motion_object) {
     velocity_length = velocity.length();   
 
     if (velocity_length > _max_speed) {
-        //velocity =  Vector2Scale(Vector2Normalize(velocity), _max_speed);
         velocity = velocity.normalize().scale(_max_speed);
     }
     

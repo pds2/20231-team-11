@@ -62,23 +62,16 @@ class Retangulo {
         bool operator==(const Retangulo& other) const;
 };
 
-/*class Texture2D {
+class Texture2D {
     private:
-        unsigned int _id;
-        int _width;
-        int _height;
-        int _format;
+        std::string _texture;
 
     public:
-        Texture2D(unsigned int id, int width, int height, int format);
+        Texture2D();
 
-        unsigned int get_id() const;
+        std::string get_texture() const;
 
-        int get_width() const;
-
-        int get_height() const;
-
-        int get_format() const;
-};*/
+        Texture2D LoadTexture(std::string texture);
+};
 
 #endif

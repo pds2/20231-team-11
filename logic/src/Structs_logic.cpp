@@ -108,21 +108,16 @@ bool Retangulo::operator==(const Retangulo& other) const {
 // TEXTURE
 //
 
-/*Texture2D::Texture2D(unsigned int id, int width, int height, int mipmaps, int format)
-    : _id(id), _width(width), _height(height), _format(format) {}
-
-unsigned int Texture2D::get_id() const {
-    return _id;
+Texture2D::Texture2D(){
+    _texture = "";
 }
 
-int Texture2D::get_width() const {
-    return _width;
+std::string Texture2D::get_texture() const{
+    return _texture;
 }
 
-int Texture2D::get_height() const {
-    return _height;
+Texture2D Texture2D::LoadTexture(std::string texture){
+    _texture = texture;
+    return *this;
 }
-
-int Texture2D::get_format() const {
-    return _format;
-}*/
+    

@@ -9,6 +9,7 @@
 #include "../logic/include/Alien_logic.hpp"
 #include "../logic/include/Ship_logic.hpp"
 #include "../logic/include/Behaviour_logic.hpp"
+#include "../logic/include/Game_logic.hpp"
 
 // acceleration
 #include <stdexcept>
@@ -48,11 +49,11 @@ TEST_CASE("02-Teste da classe Vector2") {
     Vector2 v2(4.0f, 5.0f);
     Vector2 v3;
     
-    SUBCASE("Teste do método get_x") {
+    SUBCASE("2.1Teste do método get_x") {
         CHECK(v1.get_x() == 2.0f);
     }
 
-    SUBCASE("Teste do método get_y") {
+    SUBCASE("2.2-Teste do método get_y") {
         CHECK(v1.get_y() == 3.0f);
     }
 
@@ -64,35 +65,35 @@ TEST_CASE("02-Teste da classe Vector2") {
 
     v3 = v1.add(v2);
 
-    SUBCASE("Teste do método add") {
+    SUBCASE("2.3-Teste do método add") {
         CHECK(v3.get_x() == 14.0f);
         CHECK(v3.get_y() == 25.0f);
     }
 
-    SUBCASE("Teste do método length") {
+    SUBCASE("2.4-Teste do método length") {
         float length = v1.length();
         CHECK(length == doctest::Approx(22.3606797f));
     }
 
-    SUBCASE("Teste do método scale") {
+    SUBCASE("2.5-Teste do método scale") {
         Vector2 v4 = v1.scale(2.0f);
         CHECK(v4.get_x() == 20.0f);
         CHECK(v4.get_y() == 40.0f);
     } 
 
-    SUBCASE("Teste do método subtract") {
+    SUBCASE("2.6-Teste do método subtract") {
         Vector2 v5 = v1.subtract(v2);
         CHECK(v5.get_x() == 6.0f);
         CHECK(v5.get_y() == 15.0f);
     }
 
-    SUBCASE("Teste do método normalize") {
+    SUBCASE("2.7-Teste do método normalize") {
         Vector2 v6 = v1.normalize();
         CHECK(v6.get_x() == doctest::Approx(0.4472136f));
         CHECK(v6.get_y() == doctest::Approx(0.8944271f));
     }
 
-    SUBCASE("Teste do método zero") {
+    SUBCASE("2.8-Teste do método zero") {
         Vector2 v7 = Vector2::zero();
         CHECK(v7.get_x() == 0.0f);
         CHECK(v7.get_y() == 0.0f);
@@ -116,25 +117,38 @@ TEST_CASE("03-Teste da classe Retangulo") {
     float height3 = 4.0f;
     Retangulo rec3(position3, width3, height3);
 
-    SUBCASE("Teste de getters") {
+    SUBCASE("3.1-Teste de getters") {
         CHECK(rec1.get_position().get_x() == 0.0f);
         CHECK(rec1.get_position().get_y() == 0.0f);
         CHECK(rec1.get_width() == 5.0f);
         CHECK(rec1.get_height() == 5.0f);
     }
 
-    SUBCASE("Teste de colisões entre retângulos") {
+    SUBCASE("3.2-Teste de colisões entre retângulos") {
         CHECK(rec1.CheckCollisionRecs(rec1, rec2) == true);
     }
 
-    SUBCASE("Teste de não-colisão entre retângulos") {
+    SUBCASE("3.3-Teste de não-colisão entre retângulos") {
         CHECK(rec1.CheckCollisionRecs(rec1, rec3) == false);
     }
 }
 
-TEST_CASE("04-Teste da classe Animation") {
+TEST_CASE("04-Teste da classe Texture2D") {
+    // Criação de objetos Texture2D
+    Texture2D texture1;
+    Texture2D texture2;
 
-    SUBCASE("4.1-Animation_logic"){
+    texture1.LoadTexture("textura1.png");
+    texture2.LoadTexture("textura2.png");
+
+    // Teste do método get_texture()
+    CHECK(texture1.get_texture() == "textura1.png");
+    CHECK(texture2.get_texture() == "textura2.png");
+}
+
+TEST_CASE("05-Teste da classe Animation") {
+
+    SUBCASE("5.1-Animation_logic"){
         Animation_logic animation;
 
         animation.set_width(200);
@@ -145,14 +159,14 @@ TEST_CASE("04-Teste da classe Animation") {
     }
 }
 
-TEST_CASE("05-Teste classe AnimationFPS") {
+TEST_CASE("06-Teste classe AnimationFPS") {
     AnimationFPS_logic animationFPS;
     Vector2 v(5.0f, 2.0f);
 
     animationFPS.set_num_frames(10); 
     animationFPS.set_tx_frame_dim(v);
     
-    SUBCASE("5.1-mudança do frame 0 para 1 [clock > frame_timer]"){
+    SUBCASE("6.1-mudança do frame 0 para 1 [clock > frame_timer]"){
         // set frame para zero
         animationFPS.set_frame(0);
         // set tempo de mudanca de frame para 0.2s
@@ -171,7 +185,7 @@ TEST_CASE("05-Teste classe AnimationFPS") {
 
     }
 
-    SUBCASE("5.2-mudança do frame 9 para 0: [clock > frame_timer]"){
+    SUBCASE("6.2-mudança do frame 9 para 0: [clock > frame_timer]"){
         // set frame para zero
         animationFPS.set_frame(9);
         // set tempo de mudanca de frame para 0.2s
@@ -189,7 +203,7 @@ TEST_CASE("05-Teste classe AnimationFPS") {
         CHECK(animationFPS.get_frame() == 0.0f);
     }
 
-    SUBCASE("5.3-não há mudança de frame: [clock < frame_timer]"){
+    SUBCASE("6.3-não há mudança de frame: [clock < frame_timer]"){
         // set frame para zero
         animationFPS.set_frame(5);
         // set tempo de mudanca de frame para 0.2s
@@ -208,7 +222,7 @@ TEST_CASE("05-Teste classe AnimationFPS") {
     }
 }
 
-TEST_CASE("06-Teste da classe MotionObject_logic") {
+TEST_CASE("07-Teste da classe MotionObject_logic") {
     // Parâmetros de movimento
     Vector2 position(100.0f, 100.0f);
     Vector2 velocity(1.0f, 1.0f);
@@ -219,7 +233,7 @@ TEST_CASE("06-Teste da classe MotionObject_logic") {
 
     MotionObject_logic motionObject(position, velocity, acceleration, dimension, speed_limit, acceleration_limit);
 
-    SUBCASE("6.1-Teste do construtor com parâmetros") {
+    SUBCASE("7.1-Teste do construtor com parâmetros") {
 
         // Verifique se os parâmetros foram armazenados corretamente
         CHECK(motionObject.get("position") == position);
@@ -235,7 +249,7 @@ TEST_CASE("06-Teste da classe MotionObject_logic") {
         CHECK(motionObject.get_acceleration_limit() == acceleration_limit);
     }
 
-    SUBCASE("6.2-Teste da função update") {
+    SUBCASE("7.2-Teste da função update") {
         // Chame a função update
         motionObject.update();
         // Verifique se a posição do objeto foi atualizada corretamente
@@ -252,7 +266,7 @@ TEST_CASE("06-Teste da classe MotionObject_logic") {
         CHECK(motionObject.get_rectangle() == Retangulo(Vector2 (76.0f, 76.0f), 50.0f, 50.0f));
     }
 
-    SUBCASE("6.3-Teste da função add_animation") {
+    SUBCASE("7.3-Teste da função add_animation") {
         // Crie uma animação
         Animation_logic* a1 = new Animation_logic();
         Animation_logic* a2 = new Animation_logic();
@@ -297,7 +311,7 @@ TEST_CASE("06-Teste da classe MotionObject_logic") {
     }
 }
 
-TEST_CASE("07-Teste da classe Alien_logic"){
+TEST_CASE("08-Teste da classe Alien_logic"){
     // Parâmetros de movimento
     Vector2 position(100.0f, 100.0f);
     Vector2 velocity(1.0f, 1.0f);
@@ -307,7 +321,7 @@ TEST_CASE("07-Teste da classe Alien_logic"){
     Alien_logic alien1(position, velocity, acceleration, alien_dimension, 1.2f, 1.3f);
     Alien_logic alien2(position, velocity, acceleration, alien_dimension);
 
-    SUBCASE("7.1-Teste do construtor dando speed_limit e acceleration_limit"){
+    SUBCASE("8.1-Teste do construtor dando speed_limit e acceleration_limit"){
         unsigned expectedScore = 10u;
 
         CHECK_EQ(alien1.get_score(), expectedScore);
@@ -321,18 +335,18 @@ TEST_CASE("07-Teste da classe Alien_logic"){
         CHECK(alien1.get_acceleration_limit() == doctest::Approx(1.3f));
     }
 
-    SUBCASE("7.2-Teste do construtor sem dar speed_limit e acceleration_limit"){
+    SUBCASE("8.2-Teste do construtor sem dar speed_limit e acceleration_limit"){
         CHECK(alien2.get_speed_limit() == doctest::Approx(1.0f));
         CHECK(alien2.get_acceleration_limit() == doctest::Approx(0.5f));
     }
 
-    SUBCASE("7.3-Teste da função set_score"){
+    SUBCASE("8.3-Teste da função set_score"){
         alien1.set_score(25u);
         CHECK_EQ(alien1.get_score(), 25u);
     }
 }
 
-TEST_CASE("08-Teste da classe Ship_logic"){
+TEST_CASE("09-Teste da classe Ship_logic"){
     // Parâmetros de movimento
     Vector2 position(200.0f, 150.0f);
     Vector2 velocity(1.5f, 1.5f);
@@ -342,7 +356,7 @@ TEST_CASE("08-Teste da classe Ship_logic"){
     Ship_logic ship1(position, velocity, acceleration, ship_dimension);
     Ship_logic ship2(position, velocity, acceleration, ship_dimension, 1.5f, 1.2f);
 
-    SUBCASE("8.1-Teste do construtor com parâmetros dando speed_limit e acceleration_limit"){
+    SUBCASE("9.1-Teste do construtor com parâmetros dando speed_limit e acceleration_limit"){
         CHECK(ship1.get("position") == position);
         CHECK(ship1.get("velocity") == velocity);
         CHECK(ship1.get("acceleration") == acceleration);
@@ -356,16 +370,16 @@ TEST_CASE("08-Teste da classe Ship_logic"){
         CHECK(ship1.get_current_charge() == doctest::Approx(0.0f));
     }
 
-    SUBCASE("8.2-Teste do construtor com parâmetros sem dar speed_limit e acceleration_limit"){
+    SUBCASE("9.2-Teste do construtor com parâmetros sem dar speed_limit e acceleration_limit"){
         CHECK(ship2.get_speed_limit() == doctest::Approx(1.5f));
         CHECK(ship2.get_acceleration_limit() == doctest::Approx(1.2f));
     }
 
-    SUBCASE("8.3-Teste da função is_charged"){
+    SUBCASE("9.3-Teste da função is_charged"){
         CHECK(ship1.is_charged() == false);
     }
 
-    SUBCASE("8.4-Teste da função kill_ship"){
+    SUBCASE("9.4-Teste da função kill_ship"){
         CHECK(ship1.kill_ship() == 2);
         CHECK(ship1.kill_ship() == 1);
         CHECK(ship1.kill_ship() == 0);
@@ -378,7 +392,7 @@ TEST_CASE("08-Teste da classe Ship_logic"){
     }
 }
 
-TEST_CASE("09-Teste da classe Behaviour_logic") {
+TEST_CASE("10-Teste da classe Behaviour_logic") {
     // Parâmetros de movimento
     Vector2 position(100.0f, 100.0f);
     Vector2 velocity(1.0f, 1.0f);
@@ -401,7 +415,7 @@ TEST_CASE("09-Teste da classe Behaviour_logic") {
     Ship_logic ship(position, velocity, acceleration, ship_dimension, speed_limit, acceleration_limit);
     KamikazeBehaviour_logic kamikaze(&ship);
 
-    SUBCASE("9.1-Teste da função update de Behaviour_logic"){
+    SUBCASE("10.1-Teste da função update de Behaviour_logic"){
         CHECK(motion_object.get("velocity") == velocity);
 
         behaviour.update(&motion_object);
@@ -409,12 +423,12 @@ TEST_CASE("09-Teste da classe Behaviour_logic") {
         CHECK(motion_object.get("velocity") == velocity);
     }
 
-    SUBCASE("9.2-Teste do construtor DefaultShipBehaviour_logic"){
+    SUBCASE("10.2-Teste do construtor DefaultShipBehaviour_logic"){
         CHECK(*default_ship_behaviour.get_key_inputs() == key_inputs);
         CHECK(default_ship_behaviour.get_velocity() == velocity);
     }
 
-    SUBCASE("9.3-Teste de DefaultShipBehaviour_logic::update"){
+    SUBCASE("10.3-Teste de DefaultShipBehaviour_logic::update"){
         Vector2 resultado(0.0f, 1.0f);
 
         CHECK(motion_object.get("velocity") == velocity);
@@ -428,7 +442,7 @@ TEST_CASE("09-Teste da classe Behaviour_logic") {
         //std::cout << "resultado (x,y): " << resultado.get_x() << " "<< resultado.get_y() <<std::endl;
     }
 
-    SUBCASE("9.4-Teste da função update de DefaultShipBehaviour_logic::update"){
+    SUBCASE("10.4-Teste da função update de DefaultShipBehaviour_logic::update"){
         key_inputs = { {"move-right", false}, {"move-left", true}, {"fire", false}};
         
         Vector2 resultado(-1.0f, 1.0f);
@@ -438,7 +452,7 @@ TEST_CASE("09-Teste da classe Behaviour_logic") {
         CHECK(motion_object.get("velocity") == resultado);
     }
 
-    SUBCASE("9.5-Teste da função update de DefaultShipBehaviour_logic"){
+    SUBCASE("10.5-Teste da função update de DefaultShipBehaviour_logic"){
         key_inputs = { {"move-right", true}, {"move-left", true}, {"fire", false}};
         
         Vector2 resultado(0.0f, 1.0f);
@@ -448,7 +462,7 @@ TEST_CASE("09-Teste da classe Behaviour_logic") {
         CHECK(motion_object.get("velocity") == resultado);
     }
 
-    SUBCASE("9.6-Teste da função update de DefaultShipBehaviour_logic"){
+    SUBCASE("10.6-Teste da função update de DefaultShipBehaviour_logic"){
         key_inputs = { {"move-right", true}, {"move-left", false}, {"fire", false}};
         
         Vector2 resultado(1.0f, 1.0f);
@@ -457,33 +471,30 @@ TEST_CASE("09-Teste da classe Behaviour_logic") {
 
         CHECK(motion_object.get("velocity") == resultado);
     }
+
+    SUBCASE("10.7-Teste do construtor de KamikazeBehaviour_logic"){
+        CHECK(kamikaze.get_max_speed() == doctest::Approx(20.0f));
+        CHECK(kamikaze.get_acceleration_factor() == doctest::Approx(1.02f));
+        CHECK(kamikaze.get_threshold_speed() == doctest::Approx(20.0f * 0.34f));
+        CHECK(kamikaze.get_target_object() == &ship);
+    }
 }
 
-TEST_CASE("09-Teste da classe Behaviour_logic") {
+TEST_CASE("11-Teste de KamikazeBehaviour_logic::update") {
     Vector2 dimension = {90.0f, 90.0f};
     Ship_logic* ship = new Ship_logic(Vector2 {600.0f, 900.0f - dimension.get_y()/2.0f},  Vector2 {10.0f, 0.0f}, Vector2 {0.0f, 0.0f}, dimension);
     Alien_logic* alien = new Alien_logic(Vector2 {50.0f, 30.0f}, Vector2 {0.0f, 0.0f}, Vector2 {0.01f, 0.0f}, Vector2 {80.0f, 80.0f});
 
     // Comportamento kamikaze com target: _ship
     Behaviour_logic* kamikaze_behaviour = new KamikazeBehaviour_logic(ship);    
-    
-    // SUBCASE("9.7-Teste do construtor de KamikazeBehaviour_logic"){
-    //     CHECK(kamikaze.get_max_speed() == doctest::Approx(20.0f));
-    //     CHECK(kamikaze.get_acceleration_factor() == doctest::Approx(1.02f));
-    //     CHECK(kamikaze.get_threshold_speed() == doctest::Approx(20.0f * 0.34f));
 
-
-    //     //CHECK(*kamikaze.get_target_object() == ship);
-    // }
-
-    SUBCASE("9.8-Teste de KamikazeBehaviour_logic::update"){
+    SUBCASE("11.1-Teste de KamikazeBehaviour_logic::update"){
         // {600, 900} - {50, 30} = {550, 870}
         // normalizando {550, 870} obtemos {0.53435848, 0.84525796}
         // norma da aceleracao de alien: {0.01}
         // escalando {0.53435848, 0.84525796}  a um fator 0.01 obtemos {0.0053435848, 0.0084525796}
         // velocity_length = 58.3 
         kamikaze_behaviour->update(alien);
-        std::cout <<  alien->get("velocity").get_x() << " " << alien->get("velocity").get_y() << std::endl;
 
         CHECK(alien->get("velocity").get_x() == doctest::Approx(0.005547));
         CHECK(alien->get("velocity").get_y() == doctest::Approx(0.0083205));
@@ -492,101 +503,46 @@ TEST_CASE("09-Teste da classe Behaviour_logic") {
     delete ship;
     delete alien;
     delete kamikaze_behaviour;
-
 }
 
-TEST_CASE("10-Teste da classe Game_logic"){
-    SUBCASE("10.1-Construtor"){
+TEST_CASE("12-Teste da classe Game_logic"){
+    SUBCASE("12.1-Construtor"){
+        // Teste dos atributos iniciais
+        Game_logic game1;
 
+        CHECK(game1.get_behaviour("kamikaze-to-ship") == nullptr);
+        CHECK(game1.get_animation("alien") == nullptr);
+        CHECK(game1.get_inputs("move-right") == false);
+        CHECK(game1.get_inputs("move-left") == false);
+        CHECK(game1.get_inputs("fire") == false);
+        CHECK(game1.get_ship() == nullptr);
+        CHECK(game1.get_bullets().empty());
+        CHECK(game1.get_aliens().empty());
+        CHECK(game1.get_score() == 0u);
+        CHECK(game1.get_game_status() == false);
     }
 
-    SUBCASE("10.2-Destrutor"){
+    SUBCASE("12.2-_load_graphics") {
+        Game_logic game2;
+        game2._load_graphics();
 
+        // Verifica se as texturas foram carregadas corretamente
+        CHECK(game2.get_textures().count("background") == 1);
+        CHECK(game2.get_textures().count("menu") == 1);
+        CHECK(game2.get_textures().count("explosion") == 1);
+        CHECK(game2.get_textures().count("power-up") == 1);
+        CHECK(game2.get_textures().count("ship") == 1);
+        CHECK(game2.get_textures().count("alien") == 1);
+        CHECK(game2.get_textures().count("bullet") == 1);
     }
 
-    SUBCASE("10.3-Game::initialize()"){
+    SUBCASE("12.3-_load_behaviours") {
+        Game_logic game3;
+        game3._load_behaviours();
 
-    }
-
-    SUBCASE("10.4-Game::_load_graphics()"){
-
-    }
-
-    SUBCASE("10.5-Game::_load_animations()"){
-
-    }
-
-    SUBCASE("10.6-Game::_load_behaviours()"){
-
-    }
-
-    SUBCASE("10.7-Game::_build_objects()"){
-
-    }
-
-    SUBCASE("10.8-Game::_build_aliens()"){
-
-    }
-
-    SUBCASE("10.9-Game::_show_menu()"){
-
-    }
-
-    SUBCASE("10.10-Game::run_loop()"){
-
-    }
-    
-    SUBCASE("10.12-Game::_process_input()"){
-
-    }
-
-    SUBCASE("10.13-Game::_update_game()"){
-
-    }
-
-    SUBCASE("10.14-Game::_check_colisions()"){
-
-    }
-
-    SUBCASE("10.15-Game::_reset_game()"){
-
-    }
-
-    SUBCASE("10.16-Game::_game_over()"){
-
-    }
-
-    SUBCASE("10.17-Game::_draw_game()"){
-
-    }
-
-    SUBCASE("10.18-Game::_shutdown()"){
-
-    }
-
-    SUBCASE("10.19-Game::_unload_graphics()"){
-
-    }
-
-    SUBCASE("10.20-Game::add_bullet(MotionObject* bullet)"){
-
+        // Verifica se os comportamentos foram carregados corretamente
+        CHECK(game3.get_behaviour("default") != nullptr);
+        CHECK(game3.get_behaviour("default-ship") != nullptr);
     }
 }
 
-TEST_CASE("11-Teste da classe Frota_logic"){
-    SUBCASE("11.1-"){
-
-    }
-
-    SUBCASE("11.2-"){
-
-    }
-
-    SUBCASE("11.3-"){
-
-    }
-
-    SUBCASE("11.4-"){
-
-    }
-}

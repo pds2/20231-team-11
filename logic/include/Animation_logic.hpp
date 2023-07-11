@@ -7,11 +7,7 @@ class Animation_logic {
 public:
     Animation_logic();
 
-    //Animation_logic(Texture2D* texture);
-
     ~Animation_logic();
-
-    //virtual void draw(MotionObject_logic* motion_object);
 
     virtual void update(float delta_time);
 
@@ -22,7 +18,6 @@ public:
     void set_height(float height);
 
 protected:
-    //Texture2D* _texture;
     float _width;
     float _height;
 };
@@ -33,11 +28,7 @@ public:
 
     AnimationFPS_logic();
 
-    //AnimationFPS_logic(Texture2D* texture, Vector2 tx_frames_dim, float frame_timer);
-
     ~AnimationFPS_logic();
-
-    //void draw(MotionObject_logic* motion_object) override;
 
     void update(float delta_time) override;
 

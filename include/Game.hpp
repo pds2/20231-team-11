@@ -5,6 +5,7 @@
 #include <thread>
 #include <map>
 #include <string>
+#include <cstring>
 #include <iterator>
 #include <iostream>
 #include <list>
@@ -139,7 +140,6 @@ private:
      * @brief Constrói os objetos do jogo
      */
     void inline _build_objects();
-
     
     /**
      * @brief Reinicia o jogo
@@ -152,6 +152,11 @@ private:
     void _game_over();
 
     void _clear();
+
+    /**
+     * @brief Faz a logo do raylib
+     */
+    void logo();
     
     // Gráficos
     std::map<std::string, Texture2D> _textures;

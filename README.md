@@ -11,17 +11,27 @@
 
 > Desenvolvimento de um jogo baseado no Invaders Clássico, utilizando-se a biblioteca gráfica Raylib.
 
-### Ajustes e melhorias
+## 🎮 Introdução
 
-O projeto ainda está em desenvolvimento e as próximas atualizações serão voltadas nas seguintes tarefas:
+Este projeto foi desenvolvido para a disciplina de Programação e Desenvolvimento de Software II, apresentando a implementação de um jogo inspirado no clássico Space Invaders. Assim, com o objetivo de aplicar e consolidar os conceitos e técnicas aprendidos durante o semestre letivo, o trabalho abrange uma ampla gama de tópicos fundamentais no desenvolvimento de software.
 
-- [ ] Diagrama de objetos do jogo
-- [ ] Testes de unidade
-- [ ] Implementação do objeto bullet
-- [ ] Funções de colisão e destruição de objetos
-- [ ] Refatorar as classes de comportamento
-- [ ] Adicionar opção de jogo em FULL SCREEN
-- [ ] Implementar classe Fleet para refatorar Game::_build_objects()
+A principal ênfase aqui encontrada está na utilização de conceitos como Tipos Abstratos de Dados, Prática de Containers, Modularização, Programação Orientada à Objetos, Modelagem, Polimorfismo, Herança e Testes de Unidade. Esses conceitos serão explorados de forma integrada, permitindo uma compreensão mais profunda de como aplicar cada um deles no desenvolvimento de um software completo.
+
+Para aprimorar a compreensão e a testabilidade do código, adotou-se uma estratégia de separação entre a lógica do jogo e as funcionalidades de desenho fornecidas pela biblioteca raylib. Dessa forma, a pasta "program" foi dedicada a conter o código responsável por elucidar a lógica por trás dessas funcionalidades.
+
+Devido à forte dependência do contexto gráfico e das interações com a janela do jogo nas funcionalidades de desenho da biblioteca raylib, a criação de testes unitários convencionais torna-se desafiadora. Além disso, essas partes específicas do código geralmente envolvem a exibição visual na tela, o que inviabiliza a aplicação direta de testes unitários.
+
+Assim, para assegurar a testabilidade e a clareza dos testes, optou-se por exemplificar explicitamente a lógica das funcionalidades mais relevantes do jogo, sem recorrer diretamente às funções de desenho da biblioteca raylib.
+
+## 🧩 Ajustes e melhorias
+
+Durante o desenvolvimento do projeto, foram realizadas atualizações específicas nas seguintes tarefas:
+
+- [x] Testes de unidade
+- [x] Implementação do objeto bullet
+- [x] Funções de colisão e destruição de objetos
+- [x] Refatorar as classes de comportamento
+- [x] Implementar classe Fleet para refatorar Game::_build_objects()
 
 ## 💻 Pré-requisitos
 
@@ -47,6 +57,12 @@ Linux e macOS:
 Windows:
 ```
     mingw32-make
+```
+## 🎯 Testes
+
+Para gerar o executável de teste, utilize o seguinte comando:
+```
+    g++ -std=c++11 ./logic/src/*.cpp ./logic/program/*.cpp -Iinclude -Ithirdy_party -o teste
 ```
 
 ## 📖 User Stories
@@ -130,4 +146,3 @@ Como jogador, quero que uma Texture defina as imagens de todos os objetos do jog
     </td>
   </tr>
 </table>
-

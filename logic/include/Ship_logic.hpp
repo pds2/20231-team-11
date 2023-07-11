@@ -27,21 +27,10 @@ public:
     ~Ship_logic();
 
     /**
-     * @brief Atualiza a nave em cada quadro
-     * @param delta_time Tempo desde o último quadro
-     */
-    void update(float delta_time);
-
-    /**
      * @brief Verifica se a bala está carregada
      * @return Verdadeiro se a bala estiver carregada, falso caso contrário
      */
     bool is_charged();
-
-    /**
-     * @brief Dispara uma bala
-     */
-    void fire_bullet();
 
     /**
      * @brief Diminui a vida da nave

@@ -7,13 +7,11 @@
 #include <map>
 #include <string>
 
+#include "../logic/include/MotionObject_logic.hpp"
 #include "../logic/include/Structs_logic.hpp"
-// #include "../logic/include/Settings_logic.hpp"
-// #include "../logic/include/Animation_logic.hpp"
-
-// class Structs_logic;
-class Settings_logic;
-class Animation_logic;
+#include "../logic/include/Settings_logic.hpp"
+#include "../logic/include/Animation_logic.hpp"
+//#include "../logic/include/Game_logic.hpp"
 
 class MotionObject_logic {
     public:
@@ -43,15 +41,11 @@ class MotionObject_logic {
 
         std::vector<Animation_logic*> get_animations();
 
-        //void set_game(Game_logic* game);
-
     protected:
-        //static Game_logic* _game;
+        
         std::map<std::string, Vector2> _parameters;
         
         Retangulo _rectangle;
-
-        //std::vector<Behaviour_logic*> _behaviours;
 
         std::vector<Animation_logic*> _animations;
 

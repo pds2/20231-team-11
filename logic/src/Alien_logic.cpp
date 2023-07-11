@@ -1,5 +1,4 @@
 #include "../logic/include/Alien_logic.hpp"
-//#include "Game_logic.hpp"
 
 Alien_logic::Alien_logic() : MotionObject_logic() {
 
@@ -8,7 +7,6 @@ Alien_logic::Alien_logic() : MotionObject_logic() {
 Alien_logic::~Alien_logic() {
 
 }
-
 
 Alien_logic::Alien_logic(Vector2 position, Vector2 velocity, Vector2 acceleration, 
 Vector2 alien_dimension, float speed_limit, float aceleration_limit) 
