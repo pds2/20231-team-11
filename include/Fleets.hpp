@@ -1,7 +1,9 @@
 #ifndef FLEETS_HPP
 #define FLEETS_HPP
 
-#include <raylib-cpp.hpp>
+//#include <raylib-cpp.hpp>
+#include "../thirdy_party/raylib.hpp"
+#include "../thirdy_party/raymath.hpp"
 #include <iostream>
 #include <vector>
 #include <iterator>

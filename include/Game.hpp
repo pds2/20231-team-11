@@ -1,7 +1,9 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <raylib-cpp.hpp>
+//#include <raylib-cpp.hpp>
+#include "../thirdy_party/raylib.hpp"
+#include "../thirdy_party/raymath.h"
 #include <thread>
 #include <map>
 #include <string>

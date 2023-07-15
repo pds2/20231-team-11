@@ -1,6 +1,8 @@
 #include "MotionObject.hpp"
 #include "Behaviour.hpp"
 #include "Animation.hpp"
+//#include "../thirdy_party/raylib.hpp"
+//#include "../thirdy_party/raymath.hpp"
 
 // Inicializando ponteiro para jogo como nulo
 Game* MotionObject::_game = nullptr;

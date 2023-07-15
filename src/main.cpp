@@ -1,4 +1,6 @@
-#include <raylib-cpp.hpp>
+//#include <raylib-cpp.hpp>
+#include "../thirdy_party/raylib.hpp"
+#include "../thirdy_party/raymath.hpp"
 
 #include "Game.hpp"
 

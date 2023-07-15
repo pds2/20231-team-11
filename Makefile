@@ -15,8 +15,8 @@ target := $(buildDir)/$(executable)
 sources := $(call rwildcard,src/,*.cpp)
 objects := $(patsubst src/%, $(buildDir)/%, $(patsubst %.cpp, %.o, $(sources)))
 depends := $(patsubst %.o, %.d, $(objects))
-compileFlags := -std=c++17 -I thirdy_party -I include
-linkFlags = -L lib/$(platform) -l raylib
+compileFlags := -std=c++17 -Ithirdy_party -Iinclude
+linkFlags = -L lib/$(platform) -Wall -Wno-unknown-pragmas -lraylib 
 
 # Check for Windows
 ifeq ($(OS), Windows_NT)
@@ -37,7 +37,7 @@ else
 		# Set Linux macros
 		platform := Linux
 		CXX ?= g++
-		linkFlags += -l GL -l m -l pthread -l dl -l rt -l X11
+		linkFlags += -lGL -lm -lpthread -ldl -lrt -lgcov
 	endif
 	ifeq ($(UNAMEOS), Darwin)
 		# Set macOS macros

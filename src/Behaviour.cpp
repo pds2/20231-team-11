@@ -1,4 +1,6 @@
 #include "Behaviour.hpp"
+//#include "../thirdy_party/raylib.hpp"
+//#include "../thirdy_party/raymath.hpp"
 
 // BEHAVIOUR
 Behaviour::Behaviour() {
